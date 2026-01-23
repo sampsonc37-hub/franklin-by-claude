@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Logs | Franklin by Claude</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0f0d;
+            --bg-secondary: #121a16;
+            --bg-card: #1a241e;
+            --accent-green: #4ade80;
+            --accent-amber: #fbbf24;
+            --accent-red: #f87171;
+            --accent-blue: #60a5fa;
+            --text-primary: #e8f5e9;
+            --text-secondary: #81c784;
+            --text-muted: #4a6b52;
+            --border-color: #2d4a35;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Space Mono', monospace;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+            opacity: 0.03;
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        /* Header */
+        header {
+            padding: 2rem 4rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .logo {
+            display: flex;
+            align-items: baseline;
+            gap: 1rem;
+            text-decoration: none;
+        }
+
+        .logo h1 {
+            font-family: 'Instrument Serif', serif;
+            font-size: 2.5rem;
+            font-weight: 400;
+            letter-spacing: -0.02em;
+            color: var(--text-primary);
+        }
+
+        .logo span {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+        }
+
+        nav {
+            display: flex;
+            gap: 2rem;
+        }
+
+        nav a {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid transparent;
+            transition: all 0.2s ease;
+        }
+
+        nav a:hover {
+            color: var(--text-primary);
+        }
+
+        nav a.active {
+            color: var(--accent-green);
+            border-bottom-color: var(--accent-green);
+        }
+
+        /* Main layout */
+        main {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem 4rem;
+        }
+
+        .page-header {
+            margin-bottom: 3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+        }
+
+        .page-header-text h2 {
+            font-family: 'Instrument Serif', serif;
+            font-size: 2.5rem;
+            font-weight: 400;
+            margin-bottom: 0.5rem;
+        }
+
+        .page-header-text p {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+        }
+
+        .log-timestamp {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1.25rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+        }
+
+        .log-timestamp-icon {
+            color: var(--accent-green);
+        }
+
+        .log-timestamp-text {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .log-timestamp-text strong {
+            color: var(--text-primary);
+            display: block;
+            margin-top: 0.25rem;
+        }
+
+        /* Stats overview */
+        .stats-overview {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 1rem;
+            margin-bottom: 3rem;
+        }
+
+        .overview-stat {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            padding: 1.25rem;
+            text-align: center;
+        }
+
+        .overview-stat-label {
+            font-size: 0.625rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+        }
+
+        .overview-stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .overview-stat-value.green { color: var(--accent-green); }
+        .overview-stat-value.amber { color: var(--accent-amber); }
+        .overview-stat-value.blue { color: var(--accent-blue); }
+
+        /* Filters */
+        .filters {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 0.625rem 1.25rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            color: var(--text-muted);
+            font-family: inherit;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .filter-btn:hover {
+            border-color: var(--text-muted);
+            color: var(--text-primary);
+        }
+
+        .filter-btn.active {
+            background: var(--accent-green);
+            border-color: var(--accent-green);
+            color: var(--bg-primary);
+        }
+
+        /* Daily logs */
+        .daily-logs {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .daily-log-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .daily-log-header {
+            padding: 1.25rem 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+
+        .daily-log-header:hover {
+            background: var(--bg-secondary);
+        }
+
+        .daily-log-date {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .date-badge {
+            background: var(--bg-secondary);
+            padding: 0.5rem 0.75rem;
+            border-radius: 4px;
+            text-align: center;
+            min-width: 60px;
+        }
+
+        .date-badge-day {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            line-height: 1;
+        }
+
+        .date-badge-month {
+            font-size: 0.625rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+            margin-top: 0.25rem;
+        }
+
+        .date-info h3 {
+            font-size: 1rem;
+            color: var(--text-primary);
+            margin-bottom: 0.25rem;
+        }
+
+        .date-info p {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .daily-log-summary {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .summary-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.75rem;
+        }
+
+        .summary-item-icon {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        .summary-item-icon.green { background: var(--accent-green); }
+        .summary-item-icon.amber { background: var(--accent-amber); }
+        .summary-item-icon.red { background: var(--accent-red); }
+
+        .expand-icon {
+            color: var(--text-muted);
+            transition: transform 0.2s ease;
+        }
+
+        .daily-log-card.expanded .expand-icon {
+            transform: rotate(180deg);
+        }
+
+        .daily-log-content {
+            display: none;
+            padding: 1.5rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .daily-log-card.expanded .daily-log-content {
+            display: block;
+        }
+
+        /* Log content sections */
+        .log-section {
+            margin-bottom: 2rem;
+        }
+
+        .log-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .log-section-title {
+            font-size: 0.625rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--accent-green);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        /* Environmental data */
+        .env-data-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+        }
+
+        .env-data-item {
+            background: var(--bg-secondary);
+            padding: 1rem;
+            border-radius: 4px;
+        }
+
+        .env-data-label {
+            font-size: 0.625rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+        }
+
+        .env-data-values {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+        }
+
+        .env-data-avg {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .env-data-range {
+            font-size: 0.625rem;
+            color: var(--text-muted);
+        }
+
+        /* AI decisions */
+        .ai-decisions-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .ai-decision {
+            display: flex;
+            gap: 1rem;
+            padding: 1rem;
+            background: var(--bg-secondary);
+            border-radius: 4px;
+            align-items: flex-start;
+        }
+
+        .ai-decision-time {
+            font-size: 0.75rem;
+            color: var(--accent-green);
+            min-width: 70px;
+            font-weight: 700;
+        }
+
+        .ai-decision-content {
+            flex: 1;
+        }
+
+        .ai-decision-action {
+            font-size: 0.875rem;
+            color: var(--text-primary);
+            margin-bottom: 0.25rem;
+        }
+
+        .ai-decision-reason {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .ai-decision-type {
+            font-size: 0.625rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            padding: 0.25rem 0.5rem;
+            border-radius: 2px;
+            background: var(--bg-card);
+        }
+
+        .ai-decision-type.climate { color: var(--accent-amber); }
+        .ai-decision-type.schedule { color: var(--accent-blue); }
+        .ai-decision-type.alert { color: var(--accent-red); }
+
+        /* Health notes */
+        .health-notes {
+            padding: 1rem;
+            background: var(--bg-secondary);
+            border-radius: 4px;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .health-notes strong {
+            color: var(--text-primary);
+        }
+
+        /* Growth tracking */
+        .growth-data {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+        }
+
+        .growth-item {
+            background: var(--bg-secondary);
+            padding: 1rem;
+            border-radius: 4px;
+            text-align: center;
+        }
+
+        .growth-item-label {
+            font-size: 0.625rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+        }
+
+        .growth-item-value {
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .growth-item-change {
+            font-size: 0.625rem;
+            color: var(--accent-green);
+            margin-top: 0.25rem;
+        }
+
+        .growth-item-change.negative {
+            color: var(--accent-red);
+        }
+
+        /* Empty state */
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: var(--bg-card);
+            border: 1px dashed var(--border-color);
+            border-radius: 4px;
+        }
+
+        .empty-state-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        .empty-state h3 {
+            font-family: 'Instrument Serif', serif;
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .empty-state p {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        /* Footer */
+        footer {
+            padding: 2rem 4rem;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 2rem;
+        }
+
+        .footer-text {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .footer-links a {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            transition: color 0.2s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent-green);
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .stats-overview {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .env-data-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .daily-log-summary {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            header {
+                padding: 1.5rem;
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+
+            main {
+                padding: 1.5rem;
+            }
+
+            .page-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .stats-overview {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .env-data-grid,
+            .growth-data {
+                grid-template-columns: 1fr;
+            }
+
+            footer {
+                padding: 1.5rem;
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="index.html" class="logo">
+            <h1>Franklin</h1>
+            <span>by Claude</span>
+        </a>
+        <nav>
+            <a href="index.html">Live Feed</a>
+            <a href="about.html">About</a>
+            <a href="data.html" class="active">Data Logs</a>
+        </nav>
+    </header>
+
+    <main>
+        <div class="page-header">
+            <div class="page-header-text">
+                <h2>Data Logs</h2>
+                <p>Complete environmental and care records, cataloged daily</p>
+            </div>
+            <div class="log-timestamp">
+                <span class="log-timestamp-icon">⏱</span>
+                <div class="log-timestamp-text">
+                    Daily summaries generated at
+                    <strong>11:59 PM Eastern Time</strong>
+                </div>
+            </div>
+        </div>
+
+        <div class="stats-overview">
+            <div class="overview-stat">
+                <div class="overview-stat-label">Days Logged</div>
+                <div class="overview-stat-value">0</div>
+            </div>
+            <div class="overview-stat">
+                <div class="overview-stat-label">AI Decisions</div>
+                <div class="overview-stat-value blue">0</div>
+            </div>
+            <div class="overview-stat">
+                <div class="overview-stat-label">Optimal Days</div>
+                <div class="overview-stat-value green">0</div>
+            </div>
+            <div class="overview-stat">
+                <div class="overview-stat-label">Interventions</div>
+                <div class="overview-stat-value amber">0</div>
+            </div>
+            <div class="overview-stat">
+                <div class="overview-stat-label">Alerts</div>
+                <div class="overview-stat-value">0</div>
+            </div>
+        </div>
+
+        <div class="filters">
+            <button class="filter-btn active">All Logs</button>
+            <button class="filter-btn">This Week</button>
+            <button class="filter-btn">This Month</button>
+            <button class="filter-btn">Interventions Only</button>
+            <button class="filter-btn">Alerts Only</button>
+        </div>
+
+        <div class="daily-logs">
+            <!-- Empty state shown when no logs exist yet -->
+            <div class="empty-state">
+                <div class="empty-state-icon">📊</div>
+                <h3>Awaiting First Log Entry</h3>
+                <p>Daily summaries will appear here once the habitat sensors are online. Each day at 11:59 PM ET, a comprehensive log will be generated and archived.</p>
+            </div>
+
+            <!-- Example of what a log entry will look like (hidden by default, shown for reference) -->
+            <!--
+            <div class="daily-log-card expanded">
+                <div class="daily-log-header">
+                    <div class="daily-log-date">
+                        <div class="date-badge">
+                            <div class="date-badge-day">15</div>
+                            <div class="date-badge-month">Jan</div>
+                        </div>
+                        <div class="date-info">
+                            <h3>Day 1 — System Online</h3>
+                            <p>Wednesday, January 15, 2025</p>
+                        </div>
+                    </div>
+                    <div class="daily-log-summary">
+                        <div class="summary-item">
+                            <span class="summary-item-icon green"></span>
+                            <span>Optimal conditions: 94%</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="summary-item-icon amber"></span>
+                            <span>12 AI decisions</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="summary-item-icon green"></span>
+                            <span>No alerts</span>
+                        </div>
+                    </div>
+                    <span class="expand-icon">▼</span>
+                </div>
+                <div class="daily-log-content">
+                    <div class="log-section">
+                        <h4 class="log-section-title">Environmental Summary</h4>
+                        <div class="env-data-grid">
+                            <div class="env-data-item">
+                                <div class="env-data-label">Basking Temperature</div>
+                                <div class="env-data-values">
+                                    <span class="env-data-avg">98.4°F</span>
+                                    <span class="env-data-range">Range: 95-102°F</span>
+                                </div>
+                            </div>
+                            <div class="env-data-item">
+                                <div class="env-data-label">Cool Side Temperature</div>
+                                <div class="env-data-values">
+                                    <span class="env-data-avg">79.2°F</span>
+                                    <span class="env-data-range">Range: 76-82°F</span>
+                                </div>
+                            </div>
+                            <div class="env-data-item">
+                                <div class="env-data-label">Average Humidity</div>
+                                <div class="env-data-values">
+                                    <span class="env-data-avg">52%</span>
+                                    <span class="env-data-range">Range: 45-58%</span>
+                                </div>
+                            </div>
+                            <div class="env-data-item">
+                                <div class="env-data-label">Soil Moisture</div>
+                                <div class="env-data-values">
+                                    <span class="env-data-avg">38%</span>
+                                    <span class="env-data-range">Range: 32-45%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="log-section">
+                        <h4 class="log-section-title">AI Decisions</h4>
+                        <div class="ai-decisions-list">
+                            <div class="ai-decision">
+                                <span class="ai-decision-time">07:02 AM</span>
+                                <div class="ai-decision-content">
+                                    <div class="ai-decision-action">Activated basking lamp</div>
+                                    <div class="ai-decision-reason">Morning light cycle initiated. Basking spot at 72°F, target 95-100°F.</div>
+                                </div>
+                                <span class="ai-decision-type climate">Climate</span>
+                            </div>
+                            <div class="ai-decision">
+                                <span class="ai-decision-time">10:15 AM</span>
+                                <div class="ai-decision-content">
+                                    <div class="ai-decision-action">Triggered misting system for 45 seconds</div>
+                                    <div class="ai-decision-reason">Humidity dropped to 41%, below 45% threshold.</div>
+                                </div>
+                                <span class="ai-decision-type climate">Climate</span>
+                            </div>
+                            <div class="ai-decision">
+                                <span class="ai-decision-time">02:00 PM</span>
+                                <div class="ai-decision-content">
+                                    <div class="ai-decision-action">Soak session reminder sent</div>
+                                    <div class="ai-decision-reason">Scheduled bi-weekly soak. Duration: 15-20 minutes in lukewarm water.</div>
+                                </div>
+                                <span class="ai-decision-type schedule">Schedule</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="log-section">
+                        <h4 class="log-section-title">Health & Behavior Notes</h4>
+                        <div class="health-notes">
+                            <strong>Activity Level:</strong> Normal. Franklin spent approximately 4 hours basking, 2 hours exploring, and remained in hide for evening rest.<br><br>
+                            <strong>Feeding:</strong> Fresh collard greens and timothy hay provided at 8:00 AM. Approximately 80% consumed by end of day.<br><br>
+                            <strong>Observations:</strong> No signs of respiratory distress, shell appears healthy, eyes clear and alert. Normal elimination observed.
+                        </div>
+                    </div>
+
+                    <div class="log-section">
+                        <h4 class="log-section-title">Growth Tracking</h4>
+                        <div class="growth-data">
+                            <div class="growth-item">
+                                <div class="growth-item-label">Weight</div>
+                                <div class="growth-item-value">127g</div>
+                                <div class="growth-item-change">Baseline</div>
+                            </div>
+                            <div class="growth-item">
+                                <div class="growth-item-label">Shell Length</div>
+                                <div class="growth-item-value">3.2"</div>
+                                <div class="growth-item-change">Baseline</div>
+                            </div>
+                            <div class="growth-item">
+                                <div class="growth-item-label">Shell Width</div>
+                                <div class="growth-item-value">2.8"</div>
+                                <div class="growth-item-change">Baseline</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            -->
+        </div>
+    </main>
+
+    <footer>
+        <span class="footer-text">A scientific experiment in AI-assisted animal husbandry</span>
+        <div class="footer-links">
+            <a href="https://x.com" target="_blank">Follow on X</a>
+            <a href="https://pump.fun" target="_blank">Watch on Pump.fun</a>
+            <a href="#export" id="export-btn">Export Data (CSV)</a>
+        </div>
+    </footer>
+
+    <script>
+        // Toggle log expansion
+        document.querySelectorAll('.daily-log-header').forEach(header => {
+            header.addEventListener('click', () => {
+                header.parentElement.classList.toggle('expanded');
+            });
+        });
+
+        // Filter buttons
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                // Filter logic would go here once data is available
+            });
+        });
+
+        // Export placeholder
+        document.getElementById('export-btn').addEventListener('click', (e) => {
+            e.preventDefault();
+            alert('Data export will be available once logging begins.');
+        });
+
+        console.log('Franklin by Claude - Data Logs initialized');
+        console.log('Daily summaries generated at 11:59 PM ET');
+    </script>
+</body>
+</html>

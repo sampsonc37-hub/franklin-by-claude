@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About | Franklin by Claude</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0f0d;
+            --bg-secondary: #121a16;
+            --bg-card: #1a241e;
+            --accent-green: #4ade80;
+            --accent-amber: #fbbf24;
+            --accent-red: #f87171;
+            --text-primary: #e8f5e9;
+            --text-secondary: #81c784;
+            --text-muted: #4a6b52;
+            --border-color: #2d4a35;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Space Mono', monospace;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+            opacity: 0.03;
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        /* Header */
+        header {
+            padding: 2rem 4rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .logo {
+            display: flex;
+            align-items: baseline;
+            gap: 1rem;
+            text-decoration: none;
+        }
+
+        .logo h1 {
+            font-family: 'Instrument Serif', serif;
+            font-size: 2.5rem;
+            font-weight: 400;
+            letter-spacing: -0.02em;
+            color: var(--text-primary);
+        }
+
+        .logo span {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+        }
+
+        nav {
+            display: flex;
+            gap: 2rem;
+        }
+
+        nav a {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid transparent;
+            transition: all 0.2s ease;
+        }
+
+        nav a:hover {
+            color: var(--text-primary);
+        }
+
+        nav a.active {
+            color: var(--accent-green);
+            border-bottom-color: var(--accent-green);
+        }
+
+        /* Main content */
+        main {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        .page-header {
+            margin-bottom: 4rem;
+            text-align: center;
+        }
+
+        .page-header h2 {
+            font-family: 'Instrument Serif', serif;
+            font-size: 3.5rem;
+            font-weight: 400;
+            margin-bottom: 1.5rem;
+            line-height: 1.1;
+        }
+
+        .page-header .subtitle {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+        }
+
+        /* Content sections */
+        .content-section {
+            margin-bottom: 4rem;
+        }
+
+        .section-label {
+            font-size: 0.625rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: var(--accent-green);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .section-label::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border-color);
+        }
+
+        .prose {
+            font-family: 'Instrument Serif', serif;
+            font-size: 1.375rem;
+            line-height: 1.8;
+            color: var(--text-primary);
+        }
+
+        .prose p {
+            margin-bottom: 1.5rem;
+        }
+
+        .prose p:last-child {
+            margin-bottom: 0;
+        }
+
+        .prose em {
+            font-style: italic;
+            color: var(--text-secondary);
+        }
+
+        .prose strong {
+            color: var(--accent-green);
+            font-weight: 400;
+        }
+
+        /* Quote block */
+        .quote-block {
+            border-left: 2px solid var(--accent-green);
+            padding-left: 2rem;
+            margin: 3rem 0;
+        }
+
+        .quote-block p {
+            font-family: 'Instrument Serif', serif;
+            font-size: 1.5rem;
+            font-style: italic;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        /* Info cards */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-top: 3rem;
+        }
+
+        .info-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .info-card-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            opacity: 0.8;
+        }
+
+        .info-card h4 {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .info-card p {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        /* Timeline */
+        .timeline {
+            margin-top: 2rem;
+        }
+
+        .timeline-item {
+            display: flex;
+            gap: 2rem;
+            padding-bottom: 2rem;
+            border-left: 1px solid var(--border-color);
+            margin-left: 0.5rem;
+            padding-left: 2rem;
+            position: relative;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -5px;
+            top: 0;
+            width: 9px;
+            height: 9px;
+            background: var(--bg-primary);
+            border: 2px solid var(--accent-green);
+            border-radius: 50%;
+        }
+
+        .timeline-item:last-child {
+            border-left-color: transparent;
+            padding-bottom: 0;
+        }
+
+        .timeline-date {
+            font-size: 0.75rem;
+            color: var(--accent-green);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            min-width: 100px;
+        }
+
+        .timeline-content h4 {
+            font-size: 1rem;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-content p {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        /* Commitment section */
+        .commitment-box {
+            background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-secondary) 100%);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            padding: 3rem;
+            margin-top: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .commitment-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent-green), var(--accent-amber));
+        }
+
+        .commitment-box h3 {
+            font-family: 'Instrument Serif', serif;
+            font-size: 1.75rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+        }
+
+        .commitment-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .commitment-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        .commitment-check {
+            color: var(--accent-green);
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        .commitment-item p {
+            font-size: 0.9375rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* Footer */
+        footer {
+            padding: 2rem 4rem;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 2rem;
+        }
+
+        .footer-text {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .footer-links a {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            transition: color 0.2s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent-green);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header {
+                padding: 1.5rem;
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+
+            nav {
+                gap: 1.5rem;
+            }
+
+            main {
+                padding: 2rem 1.5rem;
+            }
+
+            .page-header h2 {
+                font-size: 2.5rem;
+            }
+
+            .prose {
+                font-size: 1.125rem;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .timeline-item {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .commitment-box {
+                padding: 2rem 1.5rem;
+            }
+
+            footer {
+                padding: 1.5rem;
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="index.html" class="logo">
+            <h1>Franklin</h1>
+            <span>by Claude</span>
+        </a>
+        <nav>
+            <a href="index.html">Live Feed</a>
+            <a href="about.html" class="active">About</a>
+            <a href="data.html">Data Logs</a>
+        </nav>
+    </header>
+
+    <main>
+        <div class="page-header">
+            <p class="subtitle">The Experiment</p>
+            <h2>A Dream Decades in the Making,<br>Now Possible Through AI</h2>
+        </div>
+
+        <section class="content-section">
+            <div class="section-label">The Origin</div>
+            <div class="prose">
+                <p>
+                    For as long as I can remember, I've been captivated by the Sulcata tortoise—those gentle giants of the reptile world, with their prehistoric grace and quiet resilience. There's something profoundly humbling about an animal that can live for over a century, that carries its home on its back, that moves through life with such deliberate patience.
+                </p>
+                <p>
+                    But life, as it does, had other plans. A full-time career, the relentless rhythm of modern work, the honest acknowledgment that <em>wanting</em> to care for an animal and being <em>able</em> to care for one properly are two very different things. The dream sat on a shelf, waiting.
+                </p>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <div class="section-label">The Catalyst</div>
+            <div class="prose">
+                <p>
+                    Then came Claude.
+                </p>
+                <p>
+                    Not as a replacement for human care—nothing could be—but as a partner. An ever-watchful presence that doesn't sleep, doesn't forget, doesn't get caught in traffic on the way home from work. What if artificial intelligence could bridge the gap between <strong>intention and capability</strong>? What if the dream didn't have to wait any longer?
+                </p>
+                <p>
+                    Franklin by Claude is the answer to that question. It's an experiment in collaboration between human devotion and machine precision. A proof of concept that AI can do more than write emails and generate images—it can help us care for living things.
+                </p>
+            </div>
+
+            <div class="quote-block">
+                <p>"This isn't about replacing the human heart in animal care. It's about extending its reach."</p>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <div class="section-label">How It Works</div>
+            <div class="prose">
+                <p>
+                    Claude monitors Franklin's habitat around the clock through an array of sensors and cameras. Temperature, humidity, soil moisture—every variable that matters to a Sulcata's health is tracked, analyzed, and acted upon in real time.
+                </p>
+                <p>
+                    When the basking spot dips below optimal temperature, Claude activates the heat lamp. When humidity drops, the misting system engages. When it's time for a soak or a feeding, the schedule is maintained with unwavering consistency. And if Franklin ever finds himself on his back—a genuine danger for tortoises—the system alerts immediately.
+                </p>
+            </div>
+
+            <div class="info-grid">
+                <div class="info-card">
+                    <div class="info-card-icon">🌡️</div>
+                    <h4>Climate Control</h4>
+                    <p>Automated temperature and humidity management tuned to Sulcata requirements</p>
+                </div>
+                <div class="info-card">
+                    <div class="info-card-icon">👁️</div>
+                    <h4>Visual Monitoring</h4>
+                    <p>Computer vision tracks behavior, position, and detects potential emergencies</p>
+                </div>
+                <div class="info-card">
+                    <div class="info-card-icon">📊</div>
+                    <h4>Data Logging</h4>
+                    <p>Every decision, reading, and observation recorded for scientific analysis</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <div class="section-label">The Long View</div>
+            <div class="prose">
+                <p>
+                    Let me be unequivocal: <strong>this is not a short-term project</strong>.
+                </p>
+                <p>
+                    Sulcata tortoises can live 70 to 100 years. Franklin, if all goes well, will outlive me. This experiment is measured not in weeks or months, but in decades. The data we collect, the insights we gain, the proof we establish—all of it compounds over time.
+                </p>
+                <p>
+                    This is a commitment to a lifetime of care, documented publicly, with every success and setback shared transparently. We'll track Franklin's growth from hatchling to the hundred-pound gentle giant he's destined to become. We'll learn what works, what doesn't, and what AI-assisted animal husbandry can truly achieve.
+                </p>
+            </div>
+
+            <div class="timeline">
+                <div class="timeline-item">
+                    <span class="timeline-date">Year 1</span>
+                    <div class="timeline-content">
+                        <h4>Foundation</h4>
+                        <p>Establish baseline care protocols, refine AI decision-making, document early growth patterns</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <span class="timeline-date">Years 2-5</span>
+                    <div class="timeline-content">
+                        <h4>Adolescence</h4>
+                        <p>Scale habitat as Franklin grows, adapt care routines, build comprehensive health database</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <span class="timeline-date">Years 5-20</span>
+                    <div class="timeline-content">
+                        <h4>Maturity</h4>
+                        <p>Transition to outdoor enclosure, long-term health monitoring, publish findings</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <span class="timeline-date">Beyond</span>
+                    <div class="timeline-content">
+                        <h4>Legacy</h4>
+                        <p>A living testament to what's possible when human care is augmented by artificial intelligence</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <div class="commitment-box">
+                <h3>Our Commitment to Franklin</h3>
+                <div class="commitment-list">
+                    <div class="commitment-item">
+                        <span class="commitment-check">✓</span>
+                        <p>Franklin's welfare is the absolute priority. If at any point AI-assisted care proves insufficient, human intervention scales immediately.</p>
+                    </div>
+                    <div class="commitment-item">
+                        <span class="commitment-check">✓</span>
+                        <p>All data, including setbacks and failures, will be shared publicly. Science requires honesty.</p>
+                    </div>
+                    <div class="commitment-item">
+                        <span class="commitment-check">✓</span>
+                        <p>Regular veterinary checkups supplement AI monitoring. Technology assists; it doesn't replace professional care.</p>
+                    </div>
+                    <div class="commitment-item">
+                        <span class="commitment-check">✓</span>
+                        <p>This is a lifetime commitment. Franklin has a permanent home, regardless of the project's public interest.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <div class="section-label">Join the Journey</div>
+            <div class="prose">
+                <p>
+                    Whether you're here for the technology, the tortoise, or simply the curiosity of watching something unprecedented unfold—welcome. Follow along on X for daily updates, watch the live stream, dig into the data logs, and witness what happens when a decades-old dream finally gets its chance.
+                </p>
+                <p>
+                    Franklin's story is just beginning. I'm grateful you're here for it.
+                </p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <span class="footer-text">A scientific experiment in AI-assisted animal husbandry</span>
+        <div class="footer-links">
+            <a href="https://x.com" target="_blank">Follow on X</a>
+            <a href="https://pump.fun" target="_blank">Watch on Pump.fun</a>
+            <a href="data.html">View Data Logs</a>
+        </div>
+    </footer>
+</body>
+</html>

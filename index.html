@@ -462,9 +462,9 @@
             color: var(--accent-green);
         }
 
-        /* Demo mode banner */
-        .demo-banner {
-            background: linear-gradient(90deg, var(--accent-amber), #f59e0b);
+        /* Live banner */
+        .live-banner {
+            background: linear-gradient(90deg, var(--accent-green), #22c55e);
             color: var(--bg-primary);
             text-align: center;
             padding: 0.75rem;
@@ -472,6 +472,10 @@
             text-transform: uppercase;
             letter-spacing: 0.15em;
             font-weight: 700;
+        }
+
+        .live-banner.offline {
+            background: linear-gradient(90deg, var(--accent-amber), #f59e0b);
         }
 
         /* Responsive */
@@ -512,8 +516,8 @@
     </style>
 </head>
 <body>
-    <div class="demo-banner">
-        🐢 Demo Mode — Hardware Setup in Progress — Live Stream Coming Soon
+    <div class="live-banner" id="status-banner">
+        🐢 Connecting to Franklin's Habitat...
     </div>
 
     <header>
@@ -525,9 +529,9 @@
             <a href="index.html" style="font-size: 0.75rem; color: #4ade80; text-decoration: none; text-transform: uppercase; letter-spacing: 0.15em; border-bottom: 1px solid #4ade80; padding-bottom: 0.5rem;">Live Feed</a>
             <a href="about.html" style="font-size: 0.75rem; color: #4a6b52; text-decoration: none; text-transform: uppercase; letter-spacing: 0.15em; padding-bottom: 0.5rem; transition: color 0.2s;" onmouseover="this.style.color='#e8f5e9'" onmouseout="this.style.color='#4a6b52'">About</a>
             <a href="data.html" style="font-size: 0.75rem; color: #4a6b52; text-decoration: none; text-transform: uppercase; letter-spacing: 0.15em; padding-bottom: 0.5rem; transition: color 0.2s;" onmouseover="this.style.color='#e8f5e9'" onmouseout="this.style.color='#4a6b52'">Data Logs</a>
-            <div class="status-badge">
-                <div class="status-dot offline"></div>
-                <span>Habitat Offline</span>
+            <div class="status-badge" id="status-badge">
+                <div class="status-dot offline" id="status-dot"></div>
+                <span id="status-text">Connecting...</span>
             </div>
         </nav>
     </header>
@@ -546,36 +550,35 @@
                         <circle cx="35" cy="45" r="8" fill="#4ade80" opacity="0.3"/>
                         <circle cx="35" cy="45" r="3" fill="#4ade80" opacity="0.5"/>
                     </svg>
-                    <p>Awaiting Video Feed</p>
+                    <p>Video Stream Coming Soon</p>
                 </div>
             </div>
 
             <div class="camera-tabs">
                 <button class="camera-tab active">Camera 1 — Overview</button>
                 <button class="camera-tab">Camera 2 — Basking</button>
-                <button class="camera-tab">Camera 3 — Hide</button>
             </div>
 
             <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-label">Basking Temp</div>
-                    <div class="stat-value">--<span class="stat-unit">°F</span></div>
-                    <div class="stat-status">Awaiting sensor</div>
+                <div class="stat-card" id="temp-card">
+                    <div class="stat-label">Temperature</div>
+                    <div class="stat-value"><span id="temp-value">--</span><span class="stat-unit">°F</span></div>
+                    <div class="stat-status" id="temp-status">Connecting...</div>
                 </div>
-                <div class="stat-card">
-                    <div class="stat-label">Cool Side</div>
-                    <div class="stat-value">--<span class="stat-unit">°F</span></div>
-                    <div class="stat-status">Awaiting sensor</div>
-                </div>
-                <div class="stat-card">
+                <div class="stat-card" id="humidity-card">
                     <div class="stat-label">Humidity</div>
-                    <div class="stat-value">--<span class="stat-unit">%</span></div>
-                    <div class="stat-status">Awaiting sensor</div>
+                    <div class="stat-value"><span id="humidity-value">--</span><span class="stat-unit">%</span></div>
+                    <div class="stat-status" id="humidity-status">Connecting...</div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-label">Soil Moisture</div>
                     <div class="stat-value">--<span class="stat-unit">%</span></div>
-                    <div class="stat-status">Awaiting sensor</div>
+                    <div class="stat-status warning">Sensor pending</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Last Updated</div>
+                    <div class="stat-value" style="font-size: 1rem;" id="last-update">--</div>
+                    <div class="stat-status" id="update-status">Waiting...</div>
                 </div>
             </div>
         </div>
@@ -589,12 +592,12 @@
                 <div class="panel-content">
                     <div class="decision-log">
                         <div class="decision-item">
-                            <div class="decision-time">Pending Connection</div>
+                            <div class="decision-time" id="decision-time">Awaiting Data</div>
                             <div class="decision-action">
-                                Waiting for <span class="highlight">sensor data</span> to begin autonomous management...
+                                Monitoring <span class="highlight">habitat conditions</span> and preparing autonomous care decisions...
                             </div>
                             <div class="decision-reason">
-                                AI decisions will appear here once the habitat is online.
+                                AI will analyze sensor data and make care recommendations.
                             </div>
                         </div>
                     </div>
@@ -674,11 +677,14 @@
         <div class="footer-links">
             <a href="https://x.com" target="_blank">Follow on X</a>
             <a href="https://pump.fun" target="_blank">Watch on Pump.fun</a>
-            <a href="#data">View Data Logs</a>
+            <a href="data.html">View Data Logs</a>
         </div>
     </footer>
 
     <script>
+        // GitHub Gist URL for sensor data
+        const SENSOR_DATA_URL = 'https://gist.githubusercontent.com/sampsonc37-hub/cee1c5bd121f2c9fba7a16f2f2922e96/raw/sensor_data.json';
+        
         // Set current date
         const dateEl = document.getElementById('current-date');
         const now = new Date();
@@ -693,10 +699,114 @@
             });
         });
 
-        // Simulate live updates when connected (placeholder for real WebSocket)
-        // This will be replaced with actual sensor data once Pi is connected
+        // Fetch and update sensor data
+        async function fetchSensorData() {
+            try {
+                // Add timestamp to prevent caching
+                const response = await fetch(SENSOR_DATA_URL + '?t=' + Date.now());
+                const data = await response.json();
+                
+                // Update temperature
+                const tempValue = document.getElementById('temp-value');
+                const tempStatus = document.getElementById('temp-status');
+                const tempCard = document.getElementById('temp-card');
+                
+                if (data.temperature_f) {
+                    tempValue.textContent = data.temperature_f;
+                    
+                    // Check if temperature is in good range (75-95°F for sulcata)
+                    if (data.temperature_f >= 75 && data.temperature_f <= 95) {
+                        tempStatus.textContent = 'Optimal';
+                        tempStatus.className = 'stat-status';
+                        tempCard.className = 'stat-card';
+                    } else if (data.temperature_f < 70 || data.temperature_f > 100) {
+                        tempStatus.textContent = 'Warning';
+                        tempStatus.className = 'stat-status warning';
+                        tempCard.className = 'stat-card warning';
+                    } else {
+                        tempStatus.textContent = 'Acceptable';
+                        tempStatus.className = 'stat-status';
+                        tempCard.className = 'stat-card';
+                    }
+                }
+                
+                // Update humidity
+                const humidityValue = document.getElementById('humidity-value');
+                const humidityStatus = document.getElementById('humidity-status');
+                const humidityCard = document.getElementById('humidity-card');
+                
+                if (data.humidity) {
+                    humidityValue.textContent = data.humidity;
+                    
+                    // Check if humidity is in good range (40-60% for sulcata)
+                    if (data.humidity >= 40 && data.humidity <= 60) {
+                        humidityStatus.textContent = 'Optimal';
+                        humidityStatus.className = 'stat-status';
+                        humidityCard.className = 'stat-card';
+                    } else if (data.humidity < 30 || data.humidity > 70) {
+                        humidityStatus.textContent = 'Warning';
+                        humidityStatus.className = 'stat-status warning';
+                        humidityCard.className = 'stat-card warning';
+                    } else {
+                        humidityStatus.textContent = 'Acceptable';
+                        humidityStatus.className = 'stat-status';
+                        humidityCard.className = 'stat-card';
+                    }
+                }
+                
+                // Update last updated time
+                const lastUpdate = document.getElementById('last-update');
+                const updateStatus = document.getElementById('update-status');
+                
+                if (data.timestamp) {
+                    const updateTime = new Date(data.timestamp);
+                    lastUpdate.textContent = updateTime.toLocaleTimeString('en-US', { 
+                        hour: '2-digit', 
+                        minute: '2-digit',
+                        second: '2-digit'
+                    });
+                    updateStatus.textContent = 'Live';
+                    updateStatus.className = 'stat-status';
+                }
+                
+                // Update status badge and banner
+                const statusDot = document.getElementById('status-dot');
+                const statusText = document.getElementById('status-text');
+                const statusBanner = document.getElementById('status-banner');
+                const decisionTime = document.getElementById('decision-time');
+                
+                if (data.status === 'online') {
+                    statusDot.className = 'status-dot';
+                    statusText.textContent = 'Habitat Online';
+                    statusBanner.textContent = '🐢 Live Sensor Data — Franklin\'s Habitat is Online';
+                    statusBanner.className = 'live-banner';
+                    decisionTime.textContent = 'Live Monitoring';
+                } else {
+                    statusDot.className = 'status-dot offline';
+                    statusText.textContent = 'Habitat Offline';
+                    statusBanner.textContent = '🐢 Habitat Offline — Reconnecting...';
+                    statusBanner.className = 'live-banner offline';
+                }
+                
+                console.log('Sensor data updated:', data);
+                
+            } catch (error) {
+                console.error('Error fetching sensor data:', error);
+                
+                // Update UI to show offline status
+                document.getElementById('status-dot').className = 'status-dot offline';
+                document.getElementById('status-text').textContent = 'Connection Error';
+                document.getElementById('status-banner').textContent = '🐢 Connection Error — Retrying...';
+                document.getElementById('status-banner').className = 'live-banner offline';
+            }
+        }
+
+        // Fetch data immediately and then every 30 seconds
+        fetchSensorData();
+        setInterval(fetchSensorData, 30000);
+        
         console.log('Franklin by Claude - Dashboard initialized');
-        console.log('Waiting for habitat connection...');
+        console.log('Fetching live sensor data from GitHub Gist...');
     </script>
 </body>
 </html>

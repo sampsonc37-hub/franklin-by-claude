@@ -3,114 +3,266 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Franklin by Claude | AI-Managed Tortoise Experiment</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+    <title>Franklin by Claude | AI-Managed Tortoise Habitat</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --bg-primary: #0a0f0d;
-            --bg-secondary: #121a16;
-            --bg-card: #1a241e;
-            --accent-green: #4ade80;
-            --accent-amber: #fbbf24;
-            --accent-red: #f87171;
-            --text-primary: #e8f5e9;
-            --text-secondary: #81c784;
-            --text-muted: #4a6b52;
-            --border-color: #2d4a35;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Space Mono', monospace; background: var(--bg-primary); color: var(--text-primary); min-height: 100vh; }
-        header { padding: 2rem 4rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); }
-        .logo { display: flex; align-items: baseline; gap: 1rem; text-decoration: none; }
-        .logo h1 { font-family: 'Instrument Serif', serif; font-size: 2.5rem; font-weight: 400; }
-        .logo span { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.2em; }
-        .status-badge { display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 2rem; font-size: 0.75rem; text-transform: uppercase; }
-        .status-dot { width: 8px; height: 8px; background: var(--accent-green); border-radius: 50%; animation: pulse 2s infinite; }
-        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
-        main { display: grid; grid-template-columns: 1fr 380px; gap: 2rem; padding: 2rem 4rem; max-width: 1800px; margin: 0 auto; }
-        .stream-section { display: flex; flex-direction: column; gap: 1.5rem; }
-        .stream-container { position: relative; aspect-ratio: 16/9; background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 4px; overflow: hidden; }
-        .stream-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
-        .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; }
-        .stat-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 4px; padding: 1.25rem; }
-        .stat-label { font-size: 0.625rem; text-transform: uppercase; letter-spacing: 0.15em; color: var(--text-muted); margin-bottom: 0.5rem; }
-        .stat-value { font-size: 1.75rem; font-weight: 700; }
-        .stat-unit { font-size: 0.875rem; color: var(--text-secondary); }
-        .stat-status { font-size: 0.625rem; text-transform: uppercase; margin-top: 0.5rem; color: var(--accent-green); }
-        .sidebar { display: flex; flex-direction: column; gap: 1.5rem; }
-        .panel { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 4px; }
-        .panel-header { padding: 1rem 1.25rem; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; }
-        .panel-title { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.15em; color: var(--text-secondary); }
-        .panel-badge { font-size: 0.625rem; padding: 0.25rem 0.5rem; background: var(--bg-secondary); border-radius: 2px; color: var(--text-muted); }
-        .panel-content { padding: 1.25rem; }
-        .info-row { display: flex; justify-content: space-between; padding-bottom: 0.75rem; border-bottom: 1px solid var(--border-color); margin-bottom: 0.75rem; }
-        .info-row:last-child { border: none; margin: 0; padding: 0; }
-        .info-label { font-size: 0.75rem; color: var(--text-muted); }
-        .info-value { font-size: 0.875rem; }
-        .live-banner { background: linear-gradient(90deg, var(--accent-green), #22c55e); color: var(--bg-primary); text-align: center; padding: 0.75rem; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.15em; font-weight: 700; }
-        footer { padding: 2rem 4rem; border-top: 1px solid var(--border-color); display: flex; justify-content: space-between; margin-top: 2rem; }
-        .footer-text { font-size: 0.75rem; color: var(--text-muted); }
-        .footer-links { display: flex; gap: 2rem; }
-        .footer-links a { font-size: 0.75rem; color: var(--text-muted); text-decoration: none; text-transform: uppercase; }
-        @media (max-width: 1200px) { main { grid-template-columns: 1fr; } .stats-grid { grid-template-columns: repeat(2, 1fr); } }
-    </style>
-</head>
-<body>
-    <div class="live-banner">🐢 Live Stream — Franklin's Habitat is Online</div>
-    <header>
-        <a href="index.html" class="logo"><h1>Franklin</h1><span>by Claude</span></a>
-        <div class="status-badge"><div class="status-dot"></div><span>Live</span></div>
-    </header>
-    <main>
-        <div class="stream-section">
-            <div class="stream-container">
-                <iframe src="https://www.youtube.com/embed/live_stream?channel=UCMxPbnM_0a8q9X3fLowJLOQ&autoplay=1&mute=1&rel=0&modestbranding=1" title="Franklin Live Stream" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-            </div>
-            <div class="stats-grid">
-                <div class="stat-card"><div class="stat-label">Temperature</div><div class="stat-value" id="temp-value">--<span class="stat-unit">°F</span></div><div class="stat-status" id="temp-status">Loading...</div></div>
-                <div class="stat-card"><div class="stat-label">Humidity</div><div class="stat-value" id="humidity-value">--<span class="stat-unit">%</span></div><div class="stat-status" id="humidity-status">Loading...</div></div>
-                <div class="stat-card"><div class="stat-label">Soil Moisture</div><div class="stat-value">--<span class="stat-unit">%</span></div><div class="stat-status" style="color: var(--accent-amber);">Pending</div></div>
-                <div class="stat-card"><div class="stat-label">Last Updated</div><div class="stat-value" style="font-size: 1rem;" id="last-update">--</div><div class="stat-status" id="update-status">Waiting...</div></div>
-            </div>
-        </div>
-        <aside class="sidebar">
-            <div class="panel">
-                <div class="panel-header"><span class="panel-title">AI Decision Log</span><span class="panel-badge">Claude 3.5</span></div>
-                <div class="panel-content"><p style="color: var(--text-muted); font-size: 0.875rem;">Monitoring <span style="color: var(--accent-green);">habitat conditions</span> and preparing autonomous care decisions...</p></div>
-            </div>
-            <div class="panel">
-                <div class="panel-header"><span class="panel-title">About Franklin</span></div>
-                <div class="panel-content">
-                    <div class="info-row"><span class="info-label">Species</span><span class="info-value">Sulcata Tortoise</span></div>
-                    <div class="info-row"><span class="info-label">Age</span><span class="info-value">TBD</span></div>
-                    <div class="info-row"><span class="info-label">Weight</span><span class="info-value">TBD</span></div>
-                    <div class="info-row"><span class="info-label">Days Under AI Care</span><span class="info-value">0</span></div>
-                </div>
-            </div>
-        </aside>
-    </main>
-    <footer>
-        <span class="footer-text">A scientific experiment in AI-assisted animal husbandry</span>
-        <div class="footer-links"><a href="https://x.com" target="_blank">Follow on X</a><a href="https://pump.fun" target="_blank">Pump.fun</a></div>
-    </footer>
-    <script>
-        const SENSOR_URL = 'https://gist.githubusercontent.com/sampsonc37-hub/cee1c5bd121f2c9fba7a16f2f2922e96/raw/sensor_data.json';
-        async function fetchData() {
-            try {
-                const r = await fetch(SENSOR_URL + '?t=' + Date.now());
-                const d = await r.json();
-                if(d.temperature_f) document.getElementById('temp-value').innerHTML = d.temperature_f + '<span class="stat-unit">°F</span>';
-                if(d.humidity) document.getElementById('humidity-value').innerHTML = d.humidity + '<span class="stat-unit">%</span>';
-                if(d.timestamp) document.getElementById('last-update').textContent = new Date(d.timestamp).toLocaleTimeString();
-                document.getElementById('temp-status').textContent = 'Optimal';
-                document.getElementById('humidity-status').textContent = 'Optimal';
-                document.getElementById('update-status').textContent = 'Live';
-            } catch(e) { console.error(e); }
+
+        body {
+            font-family: 'Roboto Mono', monospace;
+            background: linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 50%, #0a0a0f 100%);
+            color: #ffffff;
+            min-height: 100vh;
         }
-        fetchData();
-        setInterval(fetchData, 30000);
-    </script>
-</body>
-</html>
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(0, 212, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 212, 255, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .dashboard {
+            display: grid;
+            grid-template-columns: 280px 1fr 320px;
+            grid-template-rows: auto 1fr auto;
+            gap: 15px;
+            padding: 15px;
+            min-height: 100vh;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header {
+            grid-column: 1 / -1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background: linear-gradient(90deg, rgba(255, 107, 53, 0.1), rgba(255, 193, 7, 0.1), rgba(255, 107, 53, 0.1));
+            border: 1px solid rgba(255, 107, 53, 0.3);
+            border-radius: 10px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #ff6b35, #ffc107);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+        }
+
+        .logo-text h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 900;
+            background: linear-gradient(90deg, #ff6b35, #ffc107, #ff6b35);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+
+        .logo-text span {
+            font-size: 0.7rem;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .header-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .header-links a {
+            padding: 8px 16px;
+            background: rgba(255, 107, 53, 0.2);
+            border: 1px solid rgba(255, 107, 53, 0.4);
+            border-radius: 5px;
+            color: #ff6b35;
+            text-decoration: none;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s;
+        }
+
+        .header-links a:hover {
+            background: rgba(255, 107, 53, 0.4);
+        }
+
+        .live-badge {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 25px;
+            background: linear-gradient(90deg, #ff0040, #ff4060);
+            border-radius: 25px;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            font-size: 1rem;
+            letter-spacing: 2px;
+            animation: pulse-live 2s infinite;
+        }
+
+        .live-dot {
+            width: 12px;
+            height: 12px;
+            background: #fff;
+            border-radius: 50%;
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        @keyframes pulse-live {
+            0%, 100% { box-shadow: 0 0 20px rgba(255, 0, 64, 0.5); }
+            50% { box-shadow: 0 0 40px rgba(255, 0, 64, 0.8); }
+        }
+
+        .datetime {
+            text-align: right;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .datetime .time {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #00d4ff;
+        }
+
+        .datetime .date {
+            font-size: 0.8rem;
+            color: #888;
+        }
+
+        .panel {
+            background: rgba(20, 20, 35, 0.9);
+            border: 1px solid rgba(255, 107, 53, 0.2);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .panel-header {
+            padding: 12px 15px;
+            background: linear-gradient(90deg, rgba(255, 107, 53, 0.2), transparent);
+            border-bottom: 1px solid rgba(255, 107, 53, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .panel-icon {
+            font-size: 1.2rem;
+        }
+
+        .panel-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #ff6b35;
+        }
+
+        .panel-content {
+            padding: 15px;
+        }
+
+        .left-column {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .stat-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .stat-item {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            padding: 15px;
+            border-left: 3px solid #ff6b35;
+        }
+
+        .stat-label {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #888;
+            margin-bottom: 5px;
+        }
+
+        .stat-value {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2rem;
+            font-weight: 900;
+            color: #fff;
+        }
+
+        .stat-value .unit {
+            font-size: 1rem;
+            color: #ff6b35;
+        }
+
+        .stat-status {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 5px;
+            padding: 3px 8px;
+            border-radius: 3px;
+            display: inline-block;
+        }
+
+        .stat-status.optimal {
+            background: rgba(0, 255, 136, 0.2);
+            color: #00ff88;
+        }
+
+        .stat-status.warning {
+            background: rgba(255, 193, 7, 0.2);
+            color: #ffc107;
+        }
+
+        .stat-status.danger {
+            background: rgba(255, 0, 64, 0.2);
+            color: #ff0040;
+        }
+
+        .equipment-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .

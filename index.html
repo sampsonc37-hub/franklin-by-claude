@@ -35,18 +35,18 @@
         }
 
         .dashboard {
-            display: grid;
-            grid-template-columns: 280px 1fr 320px;
-            grid-template-rows: auto 1fr auto;
+            display: flex;
+            flex-direction: column;
             gap: 15px;
             padding: 15px;
             min-height: 100vh;
             position: relative;
             z-index: 1;
+            max-width: 1600px;
+            margin: 0 auto;
         }
 
         .header {
-            grid-column: 1 / -1;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -162,160 +162,63 @@
             color: #888;
         }
 
-        .panel {
+        /* Main Video Section */
+        .video-section {
             background: rgba(20, 20, 35, 0.9);
-            border: 1px solid rgba(255, 107, 53, 0.2);
+            border: 1px solid rgba(255, 107, 53, 0.3);
             border-radius: 10px;
             overflow: hidden;
         }
 
-        .panel-header {
-            padding: 12px 15px;
+        .video-header {
+            padding: 12px 20px;
             background: linear-gradient(90deg, rgba(255, 107, 53, 0.2), transparent);
             border-bottom: 1px solid rgba(255, 107, 53, 0.2);
             display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .video-title {
+            display: flex;
             align-items: center;
             gap: 10px;
-        }
-
-        .panel-icon {
-            font-size: 1.2rem;
-        }
-
-        .panel-title {
             font-family: 'Orbitron', sans-serif;
-            font-size: 0.85rem;
+            font-size: 1rem;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 2px;
             color: #ff6b35;
         }
 
-        .panel-content {
-            padding: 15px;
+        .video-title span {
+            font-size: 1.3rem;
         }
 
-        .left-column {
+        .video-stats {
             display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .stat-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .stat-item {
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 8px;
-            padding: 15px;
-            border-left: 3px solid #ff6b35;
-        }
-
-        .stat-label {
-            font-size: 0.65rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: #888;
-            margin-bottom: 5px;
-        }
-
-        .stat-value {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 2rem;
-            font-weight: 900;
-            color: #fff;
-        }
-
-        .stat-value .unit {
-            font-size: 1rem;
-            color: #ff6b35;
-        }
-
-        .stat-status {
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-top: 5px;
-            padding: 3px 8px;
-            border-radius: 3px;
-            display: inline-block;
-        }
-
-        .stat-status.optimal {
-            background: rgba(0, 255, 136, 0.2);
-            color: #00ff88;
-        }
-
-        .stat-status.warning {
-            background: rgba(255, 193, 7, 0.2);
-            color: #ffc107;
-        }
-
-        .stat-status.danger {
-            background: rgba(255, 0, 64, 0.2);
-            color: #ff0040;
-        }
-
-        .equipment-list {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .equipment-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 12px;
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 6px;
-        }
-
-        .equipment-name {
+            gap: 20px;
             font-size: 0.75rem;
-            color: #ccc;
-        }
-
-        .equipment-status {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 0.7rem;
-            font-weight: 700;
-            padding: 4px 10px;
-            border-radius: 4px;
-        }
-
-        .equipment-status.on {
-            background: linear-gradient(90deg, #00ff88, #00cc6a);
-            color: #000;
-        }
-
-        .equipment-status.off {
-            background: rgba(100, 100, 100, 0.5);
             color: #888;
         }
 
-        .center-column {
+        .video-stats .stat {
             display: flex;
-            flex-direction: column;
-            gap: 15px;
+            align-items: center;
+            gap: 5px;
         }
 
-        .video-panel {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
+        .video-stats .stat-value {
+            color: #00d4ff;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
         }
 
         .video-container {
-            flex: 1;
             position: relative;
+            width: 100%;
+            padding-bottom: 45%;
             background: #000;
-            border-radius: 0 0 10px 10px;
-            overflow: hidden;
-            min-height: 400px;
         }
 
         .video-container iframe {
@@ -332,54 +235,183 @@
             bottom: 15px;
             right: 15px;
             padding: 8px 15px;
-            background: rgba(0, 0, 0, 0.7);
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid rgba(0, 212, 255, 0.3);
             border-radius: 5px;
             font-family: 'Orbitron', sans-serif;
-            font-size: 0.9rem;
+            font-size: 1rem;
             color: #00d4ff;
             z-index: 10;
         }
 
-        .franklin-info {
+        /* Bottom Grid */
+        .bottom-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+        }
+
+        .panel {
+            background: rgba(20, 20, 35, 0.9);
+            border: 1px solid rgba(255, 107, 53, 0.2);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .panel-header {
+            padding: 10px 15px;
+            background: linear-gradient(90deg, rgba(255, 107, 53, 0.2), transparent);
+            border-bottom: 1px solid rgba(255, 107, 53, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .panel-icon {
+            font-size: 1rem;
+        }
+
+        .panel-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #ff6b35;
+        }
+
+        .panel-content {
+            padding: 12px;
+        }
+
+        /* Environment Panel */
+        .env-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
             gap: 10px;
         }
 
-        .info-item {
-            background: rgba(0, 0, 0, 0.3);
-            padding: 10px;
-            border-radius: 6px;
+        .env-item {
             text-align: center;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 6px;
         }
 
-        .info-label {
+        .env-label {
+            font-size: 0.55rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #888;
+            margin-bottom: 5px;
+        }
+
+        .env-value {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 900;
+            color: #fff;
+        }
+
+        .env-value .unit {
+            font-size: 0.7rem;
+            color: #ff6b35;
+        }
+
+        .env-status {
+            font-size: 0.55rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 4px;
+            padding: 2px 6px;
+            border-radius: 3px;
+            display: inline-block;
+        }
+
+        .env-status.optimal {
+            background: rgba(0, 255, 136, 0.2);
+            color: #00ff88;
+        }
+
+        .env-status.warning {
+            background: rgba(255, 193, 7, 0.2);
+            color: #ffc107;
+        }
+
+        .env-status.danger {
+            background: rgba(255, 0, 64, 0.2);
+            color: #ff0040;
+        }
+
+        /* Equipment Panel */
+        .equipment-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+        }
+
+        .equipment-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 10px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 5px;
+            font-size: 0.65rem;
+        }
+
+        .equipment-name {
+            color: #ccc;
+        }
+
+        .equipment-status {
+            font-family: 'Orbitron', sans-serif;
             font-size: 0.6rem;
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 3px;
+        }
+
+        .equipment-status.on {
+            background: linear-gradient(90deg, #00ff88, #00cc6a);
+            color: #000;
+        }
+
+        .equipment-status.off {
+            background: rgba(100, 100, 100, 0.5);
+            color: #888;
+        }
+
+        /* Franklin Stats Panel */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 8px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 5px;
+        }
+
+        .stat-label {
+            font-size: 0.5rem;
             text-transform: uppercase;
             letter-spacing: 1px;
             color: #888;
             margin-bottom: 3px;
         }
 
-        .info-value {
+        .stat-value {
             font-family: 'Orbitron', sans-serif;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             font-weight: 700;
             color: #ffc107;
         }
 
-        .right-column {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .ai-panel {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-        }
-
+        /* AI Panel */
         .ai-panel .panel-header {
             background: linear-gradient(90deg, rgba(0, 212, 255, 0.2), transparent);
             border-bottom-color: rgba(0, 212, 255, 0.2);
@@ -393,99 +425,38 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 12px;
+            padding: 8px 10px;
             background: rgba(0, 212, 255, 0.1);
-            border-radius: 8px;
-            margin-bottom: 15px;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            font-size: 0.7rem;
         }
 
         .ai-status-label {
-            font-size: 0.7rem;
+            color: #888;
             text-transform: uppercase;
             letter-spacing: 1px;
-            color: #888;
         }
 
         .ai-status-value {
             font-family: 'Orbitron', sans-serif;
-            font-size: 0.85rem;
             font-weight: 700;
             color: #00ff88;
         }
 
-        .ai-decisions {
-            flex: 1;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            max-height: 350px;
-        }
-
-        .ai-decisions::-webkit-scrollbar {
-            width: 4px;
-        }
-
-        .ai-decisions::-webkit-scrollbar-track {
-            background: rgba(0, 0, 0, 0.3);
-        }
-
-        .ai-decisions::-webkit-scrollbar-thumb {
-            background: #00d4ff;
-            border-radius: 2px;
-        }
-
-        .decision-item {
-            padding: 12px;
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 8px;
-            border-left: 3px solid #00d4ff;
-        }
-
-        .decision-time {
-            font-size: 0.65rem;
-            color: #00d4ff;
-            margin-bottom: 5px;
-        }
-
-        .decision-text {
-            font-size: 0.8rem;
-            color: #ddd;
-            line-height: 1.4;
-        }
-
-        .decision-text .highlight {
-            color: #ffc107;
-            font-weight: 700;
-        }
-
-        .decision-confidence {
-            font-size: 0.65rem;
-            color: #888;
-            margin-top: 5px;
-        }
-
-        .vision-status {
-            padding: 12px;
-            background: rgba(0, 255, 136, 0.1);
-            border-radius: 8px;
-            border-left: 3px solid #00ff88;
-        }
-
-        .vision-status h4 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 0.75rem;
-            color: #00ff88;
-            margin-bottom: 8px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+        .vision-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 6px;
         }
 
         .vision-item {
             display: flex;
             justify-content: space-between;
-            font-size: 0.75rem;
-            margin-bottom: 5px;
+            padding: 6px 8px;
+            background: rgba(0, 255, 136, 0.05);
+            border-radius: 4px;
+            font-size: 0.6rem;
         }
 
         .vision-label {
@@ -501,8 +472,33 @@
             color: #00ff88;
         }
 
+        .ai-decision {
+            margin-top: 10px;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 6px;
+            border-left: 3px solid #00d4ff;
+        }
+
+        .ai-decision-time {
+            font-size: 0.55rem;
+            color: #00d4ff;
+            margin-bottom: 4px;
+        }
+
+        .ai-decision-text {
+            font-size: 0.7rem;
+            color: #ddd;
+            line-height: 1.4;
+        }
+
+        .ai-decision-text .highlight {
+            color: #ffc107;
+            font-weight: 700;
+        }
+
+        /* Footer */
         .footer {
-            grid-column: 1 / -1;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -515,43 +511,33 @@
         .footer-left {
             display: flex;
             align-items: center;
-            gap: 20px;
+            gap: 25px;
         }
 
         .footer-stat {
             display: flex;
             align-items: center;
             gap: 8px;
-        }
-
-        .footer-stat-icon {
-            font-size: 1rem;
+            font-size: 0.75rem;
         }
 
         .footer-stat-text {
-            font-size: 0.75rem;
             color: #888;
         }
 
         .footer-stat-value {
             font-family: 'Orbitron', sans-serif;
-            font-size: 0.85rem;
             font-weight: 700;
             color: #ff6b35;
-        }
-
-        .footer-right {
-            display: flex;
-            gap: 15px;
         }
 
         .footer-right a {
             font-size: 0.7rem;
             color: #888;
             text-decoration: none;
+            margin-left: 20px;
             text-transform: uppercase;
             letter-spacing: 1px;
-            transition: color 0.3s;
         }
 
         .footer-right a:hover {
@@ -559,15 +545,21 @@
         }
 
         @media (max-width: 1200px) {
-            .dashboard {
-                grid-template-columns: 1fr;
-                grid-template-rows: auto;
+            .bottom-grid {
+                grid-template-columns: repeat(2, 1fr);
             }
-            .left-column, .center-column, .right-column {
-                grid-column: 1;
+        }
+
+        @media (max-width: 768px) {
+            .bottom-grid {
+                grid-template-columns: 1fr;
+            }
+            .header {
+                flex-wrap: wrap;
+                gap: 10px;
             }
             .video-container {
-                min-height: 300px;
+                padding-bottom: 56.25%;
             }
         }
     </style>
@@ -596,28 +588,49 @@
             </div>
         </div>
 
-        <div class="left-column">
+        <div class="video-section">
+            <div class="video-header">
+                <div class="video-title">
+                    <span>📹</span> Live Habitat Feed
+                </div>
+                <div class="video-stats">
+                    <div class="stat">🔴 <span class="stat-value">LIVE</span></div>
+                    <div class="stat">📡 <span class="stat-value">HD 720p</span></div>
+                    <div class="stat">🎥 <span class="stat-value">2 Cameras</span></div>
+                </div>
+            </div>
+            <div class="video-container">
+                <iframe 
+                    src="https://www.youtube.com/embed/live_stream?channel=UCMxPbnM_0a8q9X3fLowJLOQ&autoplay=1&mute=1&controls=1&showinfo=0&rel=0&modestbranding=1"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen>
+                </iframe>
+                <div class="timestamp-overlay" id="video-timestamp">00:00:00</div>
+            </div>
+        </div>
+
+        <div class="bottom-grid">
             <div class="panel">
                 <div class="panel-header">
                     <span class="panel-icon">🌡️</span>
                     <span class="panel-title">Environment</span>
                 </div>
                 <div class="panel-content">
-                    <div class="stat-grid">
-                        <div class="stat-item">
-                            <div class="stat-label">Temperature</div>
-                            <div class="stat-value"><span id="temp-value">--</span><span class="unit">°F</span></div>
-                            <div class="stat-status optimal" id="temp-status">OPTIMAL</div>
+                    <div class="env-grid">
+                        <div class="env-item">
+                            <div class="env-label">Temp</div>
+                            <div class="env-value"><span id="temp-value">--</span><span class="unit">°F</span></div>
+                            <div class="env-status optimal" id="temp-status">OPTIMAL</div>
                         </div>
-                        <div class="stat-item">
-                            <div class="stat-label">Humidity</div>
-                            <div class="stat-value"><span id="humidity-value">--</span><span class="unit">%</span></div>
-                            <div class="stat-status optimal" id="humidity-status">OPTIMAL</div>
+                        <div class="env-item">
+                            <div class="env-label">Humidity</div>
+                            <div class="env-value"><span id="humidity-value">--</span><span class="unit">%</span></div>
+                            <div class="env-status optimal" id="humidity-status">OPTIMAL</div>
                         </div>
-                        <div class="stat-item">
-                            <div class="stat-label">Soil Moisture</div>
-                            <div class="stat-value"><span id="soil-value">--</span><span class="unit">%</span></div>
-                            <div class="stat-status warning" id="soil-status">PENDING</div>
+                        <div class="env-item">
+                            <div class="env-label">Soil</div>
+                            <div class="env-value"><span id="soil-value">--</span><span class="unit">%</span></div>
+                            <div class="env-status warning" id="soil-status">PENDING</div>
                         </div>
                     </div>
                 </div>
@@ -629,45 +642,24 @@
                     <span class="panel-title">Equipment</span>
                 </div>
                 <div class="panel-content">
-                    <div class="equipment-list">
+                    <div class="equipment-grid">
                         <div class="equipment-item">
-                            <span class="equipment-name">🔆 Basking Light</span>
-                            <span class="equipment-status on" id="basking-status">ON</span>
+                            <span class="equipment-name">🔆 Basking</span>
+                            <span class="equipment-status on">ON</span>
                         </div>
                         <div class="equipment-item">
-                            <span class="equipment-name">🔥 Ceramic Heater</span>
-                            <span class="equipment-status off" id="heater-status">OFF</span>
+                            <span class="equipment-name">🔥 Heater</span>
+                            <span class="equipment-status off">OFF</span>
                         </div>
                         <div class="equipment-item">
-                            <span class="equipment-name">💜 UVB Lights</span>
-                            <span class="equipment-status on" id="uvb-status">ON</span>
+                            <span class="equipment-name">💜 UVB</span>
+                            <span class="equipment-status on">ON</span>
                         </div>
                         <div class="equipment-item">
-                            <span class="equipment-name">💧 Humidifier</span>
-                            <span class="equipment-status off" id="humidifier-status">OFF</span>
-                        </div>
-                        <div class="equipment-item">
-                            <span class="equipment-name">📷 Cameras</span>
-                            <span class="equipment-status on">ONLINE</span>
+                            <span class="equipment-name">💧 Humid</span>
+                            <span class="equipment-status off">OFF</span>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="center-column">
-            <div class="panel video-panel">
-                <div class="panel-header">
-                    <span class="panel-icon">📹</span>
-                    <span class="panel-title">Live Habitat Feed</span>
-                </div>
-                <div class="video-container">
-                    <iframe 
-                        src="https://www.youtube.com/embed/live_stream?channel=UCMxPbnM_0a8q9X3fLowJLOQ&autoplay=1&mute=1&controls=0&showinfo=0&rel=0&modestbranding=1"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowfullscreen>
-                    </iframe>
-                    <div class="timestamp-overlay" id="video-timestamp">00:00:00</div>
                 </div>
             </div>
 
@@ -677,37 +669,35 @@
                     <span class="panel-title">Franklin Stats</span>
                 </div>
                 <div class="panel-content">
-                    <div class="franklin-info">
-                        <div class="info-item">
-                            <div class="info-label">Species</div>
-                            <div class="info-value">Red-Footed</div>
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <div class="stat-label">Species</div>
+                            <div class="stat-value">Red-Footed</div>
                         </div>
-                        <div class="info-item">
-                            <div class="info-label">Age</div>
-                            <div class="info-value" id="franklin-age">TBD</div>
+                        <div class="stat-item">
+                            <div class="stat-label">Age</div>
+                            <div class="stat-value">TBD</div>
                         </div>
-                        <div class="info-item">
-                            <div class="info-label">Weight</div>
-                            <div class="info-value" id="franklin-weight">TBD</div>
+                        <div class="stat-item">
+                            <div class="stat-label">Weight</div>
+                            <div class="stat-value">TBD</div>
                         </div>
-                        <div class="info-item">
-                            <div class="info-label">Shell Length</div>
-                            <div class="info-value" id="franklin-shell">TBD</div>
+                        <div class="stat-item">
+                            <div class="stat-label">Shell</div>
+                            <div class="stat-value">TBD</div>
                         </div>
-                        <div class="info-item">
-                            <div class="info-label">Days Under AI</div>
-                            <div class="info-value" id="days-under-ai">0</div>
+                        <div class="stat-item">
+                            <div class="stat-label">Days AI</div>
+                            <div class="stat-value">0</div>
                         </div>
-                        <div class="info-item">
-                            <div class="info-label">Health Score</div>
-                            <div class="info-value" style="color: #00ff88;">98%</div>
+                        <div class="stat-item">
+                            <div class="stat-label">Health</div>
+                            <div class="stat-value" style="color: #00ff88;">98%</div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <div class="right-column">
             <div class="panel ai-panel">
                 <div class="panel-header">
                     <span class="panel-icon">🤖</span>
@@ -715,49 +705,30 @@
                 </div>
                 <div class="panel-content">
                     <div class="ai-status">
-                        <span class="ai-status-label">AI Status</span>
+                        <span class="ai-status-label">Status</span>
                         <span class="ai-status-value">● MONITORING</span>
                     </div>
-                    
-                    <div class="vision-status">
-                        <h4>👁️ Vision Analysis</h4>
+                    <div class="vision-grid">
                         <div class="vision-item">
-                            <span class="vision-label">Franklin Detected</span>
-                            <span class="vision-value detected" id="franklin-detected">YES</span>
+                            <span class="vision-label">Detected</span>
+                            <span class="vision-value detected">YES</span>
                         </div>
                         <div class="vision-item">
                             <span class="vision-label">Location</span>
-                            <span class="vision-value" id="franklin-location">Basking Area</span>
+                            <span class="vision-value">Basking</span>
                         </div>
                         <div class="vision-item">
                             <span class="vision-label">Activity</span>
-                            <span class="vision-value" id="franklin-activity">Resting</span>
+                            <span class="vision-value">Resting</span>
                         </div>
                         <div class="vision-item">
-                            <span class="vision-label">Last Movement</span>
-                            <span class="vision-value" id="last-movement">2 min ago</span>
+                            <span class="vision-label">Movement</span>
+                            <span class="vision-value">2m ago</span>
                         </div>
                     </div>
-
-                    <div style="margin-top: 15px;">
-                        <div style="font-size: 0.7rem; color: #888; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px;">Recent Decisions</div>
-                        <div class="ai-decisions" id="ai-decisions">
-                            <div class="decision-item">
-                                <div class="decision-time">2 minutes ago</div>
-                                <div class="decision-text">Maintaining <span class="highlight">basking light</span> at current level. Temperature within optimal range for Red-footed tortoise.</div>
-                                <div class="decision-confidence">Confidence: 94%</div>
-                            </div>
-                            <div class="decision-item">
-                                <div class="decision-time">15 minutes ago</div>
-                                <div class="decision-text">Detected Franklin in <span class="highlight">basking zone</span>. Normal thermoregulation behavior observed.</div>
-                                <div class="decision-confidence">Confidence: 97%</div>
-                            </div>
-                            <div class="decision-item">
-                                <div class="decision-time">1 hour ago</div>
-                                <div class="decision-text">Humidity at <span class="highlight">optimal levels</span>. Humidifier remains in standby mode.</div>
-                                <div class="decision-confidence">Confidence: 91%</div>
-                            </div>
-                        </div>
+                    <div class="ai-decision">
+                        <div class="ai-decision-time">Latest Decision</div>
+                        <div class="ai-decision-text">Maintaining <span class="highlight">basking light</span> - temp optimal for Red-footed tortoise.</div>
                     </div>
                 </div>
             </div>
@@ -766,18 +737,18 @@
         <div class="footer">
             <div class="footer-left">
                 <div class="footer-stat">
-                    <span class="footer-stat-icon">⏱️</span>
+                    <span>⏱️</span>
                     <span class="footer-stat-text">Uptime:</span>
                     <span class="footer-stat-value" id="uptime">0h 0m</span>
                 </div>
                 <div class="footer-stat">
-                    <span class="footer-stat-icon">📊</span>
-                    <span class="footer-stat-text">AI Decisions Today:</span>
+                    <span>📊</span>
+                    <span class="footer-stat-text">AI Decisions:</span>
                     <span class="footer-stat-value" id="decisions-today">24</span>
                 </div>
                 <div class="footer-stat">
-                    <span class="footer-stat-icon">🎯</span>
-                    <span class="footer-stat-text">System Health:</span>
+                    <span>🎯</span>
+                    <span class="footer-stat-text">System:</span>
                     <span class="footer-stat-value" style="color: #00ff88;">100%</span>
                 </div>
             </div>
@@ -810,13 +781,13 @@
                     const tempStatus = document.getElementById('temp-status');
                     if (data.temperature_f >= 75 && data.temperature_f <= 85) {
                         tempStatus.textContent = 'OPTIMAL';
-                        tempStatus.className = 'stat-status optimal';
+                        tempStatus.className = 'env-status optimal';
                     } else if (data.temperature_f >= 70 && data.temperature_f <= 90) {
                         tempStatus.textContent = 'ACCEPTABLE';
-                        tempStatus.className = 'stat-status warning';
+                        tempStatus.className = 'env-status warning';
                     } else {
                         tempStatus.textContent = 'WARNING';
-                        tempStatus.className = 'stat-status danger';
+                        tempStatus.className = 'env-status danger';
                     }
                 }
                 
@@ -825,13 +796,13 @@
                     const humidityStatus = document.getElementById('humidity-status');
                     if (data.humidity >= 60 && data.humidity <= 80) {
                         humidityStatus.textContent = 'OPTIMAL';
-                        humidityStatus.className = 'stat-status optimal';
+                        humidityStatus.className = 'env-status optimal';
                     } else if (data.humidity >= 50 && data.humidity <= 90) {
                         humidityStatus.textContent = 'ACCEPTABLE';
-                        humidityStatus.className = 'stat-status warning';
+                        humidityStatus.className = 'env-status warning';
                     } else {
                         humidityStatus.textContent = 'WARNING';
-                        humidityStatus.className = 'stat-status danger';
+                        humidityStatus.className = 'env-status danger';
                     }
                 }
             } catch (error) {

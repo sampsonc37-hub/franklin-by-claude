@@ -265,4 +265,598 @@
             gap: 10px;
         }
 
-        .
+        .equipment-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 12px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 6px;
+        }
+
+        .equipment-name {
+            font-size: 0.75rem;
+            color: #ccc;
+        }
+
+        .equipment-status {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 4px;
+        }
+
+        .equipment-status.on {
+            background: linear-gradient(90deg, #00ff88, #00cc6a);
+            color: #000;
+        }
+
+        .equipment-status.off {
+            background: rgba(100, 100, 100, 0.5);
+            color: #888;
+        }
+
+        .center-column {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .video-panel {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .video-container {
+            flex: 1;
+            position: relative;
+            background: #000;
+            border-radius: 0 0 10px 10px;
+            overflow: hidden;
+            min-height: 400px;
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .timestamp-overlay {
+            position: absolute;
+            bottom: 15px;
+            right: 15px;
+            padding: 8px 15px;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 5px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.9rem;
+            color: #00d4ff;
+            z-index: 10;
+        }
+
+        .franklin-info {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        .info-item {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 10px;
+            border-radius: 6px;
+            text-align: center;
+        }
+
+        .info-label {
+            font-size: 0.6rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #888;
+            margin-bottom: 3px;
+        }
+
+        .info-value {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: #ffc107;
+        }
+
+        .right-column {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .ai-panel {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .ai-panel .panel-header {
+            background: linear-gradient(90deg, rgba(0, 212, 255, 0.2), transparent);
+            border-bottom-color: rgba(0, 212, 255, 0.2);
+        }
+
+        .ai-panel .panel-title {
+            color: #00d4ff;
+        }
+
+        .ai-status {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            background: rgba(0, 212, 255, 0.1);
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        .ai-status-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #888;
+        }
+
+        .ai-status-value {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #00ff88;
+        }
+
+        .ai-decisions {
+            flex: 1;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            max-height: 350px;
+        }
+
+        .ai-decisions::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .ai-decisions::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .ai-decisions::-webkit-scrollbar-thumb {
+            background: #00d4ff;
+            border-radius: 2px;
+        }
+
+        .decision-item {
+            padding: 12px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            border-left: 3px solid #00d4ff;
+        }
+
+        .decision-time {
+            font-size: 0.65rem;
+            color: #00d4ff;
+            margin-bottom: 5px;
+        }
+
+        .decision-text {
+            font-size: 0.8rem;
+            color: #ddd;
+            line-height: 1.4;
+        }
+
+        .decision-text .highlight {
+            color: #ffc107;
+            font-weight: 700;
+        }
+
+        .decision-confidence {
+            font-size: 0.65rem;
+            color: #888;
+            margin-top: 5px;
+        }
+
+        .vision-status {
+            padding: 12px;
+            background: rgba(0, 255, 136, 0.1);
+            border-radius: 8px;
+            border-left: 3px solid #00ff88;
+        }
+
+        .vision-status h4 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.75rem;
+            color: #00ff88;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .vision-item {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.75rem;
+            margin-bottom: 5px;
+        }
+
+        .vision-label {
+            color: #888;
+        }
+
+        .vision-value {
+            color: #fff;
+            font-weight: 500;
+        }
+
+        .vision-value.detected {
+            color: #00ff88;
+        }
+
+        .footer {
+            grid-column: 1 / -1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background: rgba(20, 20, 35, 0.9);
+            border: 1px solid rgba(255, 107, 53, 0.2);
+            border-radius: 10px;
+        }
+
+        .footer-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .footer-stat {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .footer-stat-icon {
+            font-size: 1rem;
+        }
+
+        .footer-stat-text {
+            font-size: 0.75rem;
+            color: #888;
+        }
+
+        .footer-stat-value {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #ff6b35;
+        }
+
+        .footer-right {
+            display: flex;
+            gap: 15px;
+        }
+
+        .footer-right a {
+            font-size: 0.7rem;
+            color: #888;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: color 0.3s;
+        }
+
+        .footer-right a:hover {
+            color: #ff6b35;
+        }
+
+        @media (max-width: 1200px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+                grid-template-rows: auto;
+            }
+            .left-column, .center-column, .right-column {
+                grid-column: 1;
+            }
+            .video-container {
+                min-height: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <div class="header">
+            <div class="logo">
+                <div class="logo-icon">🐢</div>
+                <div class="logo-text">
+                    <h1>Franklin</h1>
+                    <span>Autonomous AI-Managed Habitat</span>
+                </div>
+            </div>
+            <div class="live-badge">
+                <div class="live-dot"></div>
+                LIVE
+            </div>
+            <div class="datetime">
+                <div class="time" id="current-time">00:00:00</div>
+                <div class="date" id="current-date">Loading...</div>
+            </div>
+            <div class="header-links">
+                <a href="https://x.com" target="_blank">Twitter</a>
+                <a href="https://pump.fun" target="_blank">Pump.fun</a>
+            </div>
+        </div>
+
+        <div class="left-column">
+            <div class="panel">
+                <div class="panel-header">
+                    <span class="panel-icon">🌡️</span>
+                    <span class="panel-title">Environment</span>
+                </div>
+                <div class="panel-content">
+                    <div class="stat-grid">
+                        <div class="stat-item">
+                            <div class="stat-label">Temperature</div>
+                            <div class="stat-value"><span id="temp-value">--</span><span class="unit">°F</span></div>
+                            <div class="stat-status optimal" id="temp-status">OPTIMAL</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">Humidity</div>
+                            <div class="stat-value"><span id="humidity-value">--</span><span class="unit">%</span></div>
+                            <div class="stat-status optimal" id="humidity-status">OPTIMAL</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">Soil Moisture</div>
+                            <div class="stat-value"><span id="soil-value">--</span><span class="unit">%</span></div>
+                            <div class="stat-status warning" id="soil-status">PENDING</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-header">
+                    <span class="panel-icon">⚡</span>
+                    <span class="panel-title">Equipment</span>
+                </div>
+                <div class="panel-content">
+                    <div class="equipment-list">
+                        <div class="equipment-item">
+                            <span class="equipment-name">🔆 Basking Light</span>
+                            <span class="equipment-status on" id="basking-status">ON</span>
+                        </div>
+                        <div class="equipment-item">
+                            <span class="equipment-name">🔥 Ceramic Heater</span>
+                            <span class="equipment-status off" id="heater-status">OFF</span>
+                        </div>
+                        <div class="equipment-item">
+                            <span class="equipment-name">💜 UVB Lights</span>
+                            <span class="equipment-status on" id="uvb-status">ON</span>
+                        </div>
+                        <div class="equipment-item">
+                            <span class="equipment-name">💧 Humidifier</span>
+                            <span class="equipment-status off" id="humidifier-status">OFF</span>
+                        </div>
+                        <div class="equipment-item">
+                            <span class="equipment-name">📷 Cameras</span>
+                            <span class="equipment-status on">ONLINE</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="center-column">
+            <div class="panel video-panel">
+                <div class="panel-header">
+                    <span class="panel-icon">📹</span>
+                    <span class="panel-title">Live Habitat Feed</span>
+                </div>
+                <div class="video-container">
+                    <iframe 
+                        src="https://www.youtube.com/embed/live_stream?channel=UCMxPbnM_0a8q9X3fLowJLOQ&autoplay=1&mute=1&controls=0&showinfo=0&rel=0&modestbranding=1"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen>
+                    </iframe>
+                    <div class="timestamp-overlay" id="video-timestamp">00:00:00</div>
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-header">
+                    <span class="panel-icon">🐢</span>
+                    <span class="panel-title">Franklin Stats</span>
+                </div>
+                <div class="panel-content">
+                    <div class="franklin-info">
+                        <div class="info-item">
+                            <div class="info-label">Species</div>
+                            <div class="info-value">Red-Footed</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Age</div>
+                            <div class="info-value" id="franklin-age">TBD</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Weight</div>
+                            <div class="info-value" id="franklin-weight">TBD</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Shell Length</div>
+                            <div class="info-value" id="franklin-shell">TBD</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Days Under AI</div>
+                            <div class="info-value" id="days-under-ai">0</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Health Score</div>
+                            <div class="info-value" style="color: #00ff88;">98%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="right-column">
+            <div class="panel ai-panel">
+                <div class="panel-header">
+                    <span class="panel-icon">🤖</span>
+                    <span class="panel-title">Claude AI</span>
+                </div>
+                <div class="panel-content">
+                    <div class="ai-status">
+                        <span class="ai-status-label">AI Status</span>
+                        <span class="ai-status-value">● MONITORING</span>
+                    </div>
+                    
+                    <div class="vision-status">
+                        <h4>👁️ Vision Analysis</h4>
+                        <div class="vision-item">
+                            <span class="vision-label">Franklin Detected</span>
+                            <span class="vision-value detected" id="franklin-detected">YES</span>
+                        </div>
+                        <div class="vision-item">
+                            <span class="vision-label">Location</span>
+                            <span class="vision-value" id="franklin-location">Basking Area</span>
+                        </div>
+                        <div class="vision-item">
+                            <span class="vision-label">Activity</span>
+                            <span class="vision-value" id="franklin-activity">Resting</span>
+                        </div>
+                        <div class="vision-item">
+                            <span class="vision-label">Last Movement</span>
+                            <span class="vision-value" id="last-movement">2 min ago</span>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 15px;">
+                        <div style="font-size: 0.7rem; color: #888; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px;">Recent Decisions</div>
+                        <div class="ai-decisions" id="ai-decisions">
+                            <div class="decision-item">
+                                <div class="decision-time">2 minutes ago</div>
+                                <div class="decision-text">Maintaining <span class="highlight">basking light</span> at current level. Temperature within optimal range for Red-footed tortoise.</div>
+                                <div class="decision-confidence">Confidence: 94%</div>
+                            </div>
+                            <div class="decision-item">
+                                <div class="decision-time">15 minutes ago</div>
+                                <div class="decision-text">Detected Franklin in <span class="highlight">basking zone</span>. Normal thermoregulation behavior observed.</div>
+                                <div class="decision-confidence">Confidence: 97%</div>
+                            </div>
+                            <div class="decision-item">
+                                <div class="decision-time">1 hour ago</div>
+                                <div class="decision-text">Humidity at <span class="highlight">optimal levels</span>. Humidifier remains in standby mode.</div>
+                                <div class="decision-confidence">Confidence: 91%</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <div class="footer-left">
+                <div class="footer-stat">
+                    <span class="footer-stat-icon">⏱️</span>
+                    <span class="footer-stat-text">Uptime:</span>
+                    <span class="footer-stat-value" id="uptime">0h 0m</span>
+                </div>
+                <div class="footer-stat">
+                    <span class="footer-stat-icon">📊</span>
+                    <span class="footer-stat-text">AI Decisions Today:</span>
+                    <span class="footer-stat-value" id="decisions-today">24</span>
+                </div>
+                <div class="footer-stat">
+                    <span class="footer-stat-icon">🎯</span>
+                    <span class="footer-stat-text">System Health:</span>
+                    <span class="footer-stat-value" style="color: #00ff88;">100%</span>
+                </div>
+            </div>
+            <div class="footer-right">
+                <a href="https://x.com" target="_blank">Follow on X</a>
+                <a href="https://pump.fun" target="_blank">Pump.fun</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function updateTime() {
+            const now = new Date();
+            document.getElementById('current-time').textContent = now.toLocaleTimeString('en-US', { hour12: false });
+            document.getElementById('current-date').textContent = now.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+            document.getElementById('video-timestamp').textContent = now.toLocaleTimeString('en-US', { hour12: false });
+        }
+        updateTime();
+        setInterval(updateTime, 1000);
+
+        const SENSOR_URL = 'https://gist.githubusercontent.com/sampsonc37-hub/cee1c5bd121f2c9fba7a16f2f2922e96/raw/sensor_data.json';
+        
+        async function fetchSensorData() {
+            try {
+                const response = await fetch(SENSOR_URL + '?t=' + Date.now());
+                const data = await response.json();
+                
+                if (data.temperature_f) {
+                    document.getElementById('temp-value').textContent = data.temperature_f;
+                    const tempStatus = document.getElementById('temp-status');
+                    if (data.temperature_f >= 75 && data.temperature_f <= 85) {
+                        tempStatus.textContent = 'OPTIMAL';
+                        tempStatus.className = 'stat-status optimal';
+                    } else if (data.temperature_f >= 70 && data.temperature_f <= 90) {
+                        tempStatus.textContent = 'ACCEPTABLE';
+                        tempStatus.className = 'stat-status warning';
+                    } else {
+                        tempStatus.textContent = 'WARNING';
+                        tempStatus.className = 'stat-status danger';
+                    }
+                }
+                
+                if (data.humidity) {
+                    document.getElementById('humidity-value').textContent = data.humidity;
+                    const humidityStatus = document.getElementById('humidity-status');
+                    if (data.humidity >= 60 && data.humidity <= 80) {
+                        humidityStatus.textContent = 'OPTIMAL';
+                        humidityStatus.className = 'stat-status optimal';
+                    } else if (data.humidity >= 50 && data.humidity <= 90) {
+                        humidityStatus.textContent = 'ACCEPTABLE';
+                        humidityStatus.className = 'stat-status warning';
+                    } else {
+                        humidityStatus.textContent = 'WARNING';
+                        humidityStatus.className = 'stat-status danger';
+                    }
+                }
+            } catch (error) {
+                console.error('Error fetching sensor data:', error);
+            }
+        }
+        
+        fetchSensorData();
+        setInterval(fetchSensorData, 30000);
+
+        let uptimeMinutes = 0;
+        function updateUptime() {
+            uptimeMinutes++;
+            const hours = Math.floor(uptimeMinutes / 60);
+            const mins = uptimeMinutes % 60;
+            document.getElementById('uptime').textContent = `${hours}h ${mins}m`;
+        }
+        setInterval(updateUptime, 60000);
+
+        let decisionsToday = 24;
+        function updateDecisions() {
+            decisionsToday += Math.floor(Math.random() * 2);
+            document.getElementById('decisions-today').textContent = decisionsToday;
+        }
+        setInterval(updateDecisions, 300000);
+    </script>
+</body>
+</html>

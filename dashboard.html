@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Franklin by Claude | Live Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto Mono', monospace;
+            background: linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 50%, #0a0a0f 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(0, 212, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 212, 255, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .dashboard {
+            display: grid;
+            grid-template-columns: 280px 1fr 320px;
+            grid-template-rows: auto 1fr auto;
+            gap: 15px;
+            padding: 15px;
+            height: 100vh;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header {
+            grid-column: 1 / -1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background: linear-gradient(90deg, rgba(255, 107, 53, 0.1), rgba(255, 193, 7, 0.1), rgba(255, 107, 53, 0.1));
+            border: 1px solid rgba(255, 107, 53, 0.3);
+            border-radius: 10px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #ff6b35, #ffc107);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+        }
+
+        .logo-text h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 900;
+            background: linear-gradient(90deg, #ff6b35, #ffc107, #ff6b35);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+
+        .logo-text span {
+            font-size: 0.7rem;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .live-badge {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 25px;
+            background: linear-gradient(90deg, #ff0040, #ff4060);
+            border-radius: 25px;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            font-size: 1rem;
+            letter-spacing: 2px;
+            animation: pulse-live 2s infinite;
+        }
+
+        .live-dot {
+            width: 12px;
+            height: 12px;
+            background: #fff;
+            border-radius: 50%;
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        @keyframes pulse-live {
+            0%, 100% { box-shadow: 0 0 20px rgba(255, 0, 64, 0.5); }
+            50% { box-shadow: 0 0 40px rgba(255, 0, 64, 0.8); }
+        }
+
+        .datetime {
+            text-align: right;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .datetime .time {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #00d4ff;
+        }
+
+        .datetime .date {
+            font-size: 0.8rem;
+            color: #888;
+        }
+
+        .panel {
+            background: rgba(20, 20, 35, 0.9);
+            border: 1px solid rgba(255, 107, 53, 0.2);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .panel-header {
+            padding: 12px 15px;
+            background: linear-gradient(90deg, rgba(255, 107, 53, 0.2), transparent);
+            border-bottom: 1px solid rgba(255, 107, 53, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .panel-icon {
+            font-size: 1.2rem;
+        }
+
+        .panel-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #ff6b35;
+        }
+
+        .panel-content {
+            padding: 15px;
+        }
+
+        .left-column {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .stat-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .stat-item {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            padding: 15px;
+            border-left: 3px solid #ff6b35;
+        }
+
+        .stat-label {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #888;
+            margin-bottom: 5px;
+        }
+
+        .stat-value {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2rem;
+            font-weight: 900;
+            color: #fff;
+        }
+
+        .stat-value .unit {
+            font-size: 1rem;
+            color: #ff6b35;
+        }
+
+        .stat-status {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 5px;
+            padding: 3px 8px;
+            border-radius: 3px;
+            display: inline-block;
+        }
+
+        .stat-status.optimal {
+            background: rgba(0, 255, 136, 0.2);
+            color: #00ff88;
+        }
+
+        .stat-status.warning {
+            background: rgba(255, 193, 7, 0.2);
+            color: #ffc107;
+        }
+
+        .stat-status.danger {
+            background: rgba(255, 0, 64, 0.2);
+            color: #ff0040;
+        }
+
+        .equipment-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .equipment-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 12px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 6px;
+        }
+
+        .equipment-name {
+            font-size: 0.75rem;
+            color: #ccc;
+        }
+
+        .equipment-status {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 4px;
+        }
+
+        .equipment-status.on {
+            background: linear-gradient(90deg, #00ff88, #00cc6a);
+            color: #000;
+        }
+
+        .equipment-status.off {
+            background: rgba(100, 100, 100, 0.5);
+            color: #888;
+        }
+
+        .center-column {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .video-panel {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .video-container {
+            flex: 1;
+            position: relative;
+            background: #000;
+            border-radius: 0 0 10px 10px;
+            overflow: hidden;
+            min-height: 400px;
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .timestamp-overlay {
+            position: absolute;
+            bottom: 15px;
+            right: 15px;
+            padding: 8px 15px;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 5px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.9rem;
+            color: #00d4ff;
+            z-index: 10;
+        }
+
+        .franklin-info {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        .info-item {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 10px;
+            border-radius: 6px;
+            text-align: center;
+        }
+
+        .info-label {
+            font-size: 0.6rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #888;
+            margin-bottom: 3px;
+        }
+
+        .info-value {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: #ffc107;
+        }
+
+        .right-column {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .ai-panel {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .ai-panel .panel-header {
+            background: linear-gradient(90deg, rgba(0, 212, 255, 0.2), transparent);
+            border-bottom-color: rgba(0, 212, 255, 0.2);
+        }
+
+        .ai-panel .panel-title {
+            color: #00d4ff;
+        }
+
+        .ai-status {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            background: rgba(0, 212, 255, 0.1);
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        .ai-status-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #888;
+        }
+
+        .ai-status-value {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #00ff88;
+        }
+
+        .ai-decisions {
+            flex: 1;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            max-height: 350px;
+        }
+
+        .ai-decisions::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .ai-decisions::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .ai-decisions::-webkit-scrollbar-thumb {
+            background: #00d4ff;
+            border-radius: 2px;
+        }
+
+        .decision-item {
+            padding: 12px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            border-left: 3px solid #00d4ff;
+        }
+
+        .decision-time {
+            font-size: 0.65rem;
+            color: #00d4ff;
+            margin-bottom: 5px;
+        }
+
+        .decision-text {
+            font-size: 0.8rem;
+            color: #ddd;
+            line-height: 1.4;
+        }
+
+        .decision-text .highlight {
+            color: #ffc107;
+            font-weight: 700;
+        }
+
+        .decision-confidence {
+            font-size: 0.65rem;
+            color: #888;
+            margin-top: 5px;
+        }
+
+        .vision-status {
+            padding: 12px;
+            background: rgba(0, 255, 136, 0.1);
+            border-radius: 8px;
+            border-left: 3px solid #00ff88;
+        }
+
+        .vision-status h4 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.75rem;
+            color: #00ff88;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .vision-item {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.75rem;
+            margin-bottom: 5px;
+        }
+
+        .vision-label {
+            color: #888;
+        }
+
+        .vision-value {
+            color: #fff;
+            font-weight: 500;
+        }
+
+        .vision-value.detected {
+            color: #00ff88;
+        }
+
+        .footer {
+            grid-column: 1 / -1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background: rgba(20, 20, 35, 0.9);
+            border: 1px solid rgba(255, 107, 53, 0.2);
+            border-radius: 10px;
+        }
+
+        .footer-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .footer-stat {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .footer-stat-icon {
+            font-size: 1rem;
+        }
+
+        .footer-stat-text {
+            font-size: 0.75rem;
+            color: #888;
+        }
+
+        .footer-stat-value {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #ff6b35;
+        }
+
+        .footer-right {
+            font-size: 0.7rem;
+            color: #555;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .footer-right a {
+            color: #ff6b35;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <div class="header">
+            <div class="logo">
+                <div class="logo-icon">🐢</div>
+                <div class="logo-text">
+                    <h1>Franklin</h1>
+                    <span>Autonomous AI-Managed Habitat</span>
+                </div>
+            </div>
+            <div class="live-badge">
+                <div class="live-dot"></div>
+                LIVE
+            </div>
+            <div class="datetime">
+                <div class="time" id="current-time">00:00:00</div>
+                <div class="date" id="current-date">Loading...</div>
+            </div>
+        </div>
+
+        <div class="left-column">
+            <div class="panel">
+                <div class="panel-header">
+                    <span class="panel-icon">🌡️</span>
+                    <span class="panel-title">Environment</span>
+                </div>
+                <div class="panel-content">
+                    <div class="stat-grid">
+                        <div class="stat-item">
+                            <div class="stat-label">Temperature</div>
+                            <div class="stat-value"><span id="temp-value">--</span><span class="unit">°F</span></div>
+                            <div class="stat-status optimal" id="temp-status">OPTIMAL</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">Humidity</div>
+                            <div class="stat-value"><span id="humidity-value">--</span><span class="unit">%</span></div>
+                            <div class="stat-status optimal" id="humidity-status">OPTIMAL</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">Soil Moisture</div>
+                            <div class="stat-value"><span id="soil-value">--</span><span class="unit">%</span></div>
+                            <div class="stat-status warning" id="soil-status">PENDING</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-header">
+                    <span class="panel-icon">⚡</span>
+                    <span class="panel-title">Equipment</span>
+                </div>
+                <div class="panel-content">
+                    <div class="equipment-list">
+                        <div class="equipment-item">
+                            <span class="equipment-name">🔆 Basking Light</span>
+                            <span class="equipment-status on" id="basking-status">ON</span>
+                        </div>
+                        <div class="equipment-item">
+                            <span class="equipment-name">🔥 Ceramic Heater</span>
+                            <span class="equipment-status off" id="heater-status">OFF</span>
+                        </div>
+                        <div class="equipment-item">
+                            <span class="equipment-name">💜 UVB Lights</span>
+                            <span class="equipment-status on" id="uvb-status">ON</span>
+                        </div>
+                        <div class="equipment-item">
+                            <span class="equipment-name">💧 Humidifier</span>
+                            <span class="equipment-status off" id="humidifier-status">OFF</span>
+                        </div>
+                        <div class="equipment-item">
+                            <span class="equipment-name">📷 Cameras</span>
+                            <span class="equipment-status on">ONLINE</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="center-column">
+            <div class="panel video-panel">
+                <div class="panel-header">
+                    <span class="panel-icon">📹</span>
+                    <span class="panel-title">Live Habitat Feed</span>
+                </div>
+                <div class="video-container">
+                    <iframe 
+                        src="https://www.youtube.com/embed/live_stream?channel=UCMxPbnM_0a8q9X3fLowJLOQ&autoplay=1&mute=1&controls=0&showinfo=0&rel=0&modestbranding=1"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen>
+                    </iframe>
+                    <div class="timestamp-overlay" id="video-timestamp">00:00:00</div>
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-header">
+                    <span class="panel-icon">🐢</span>
+                    <span class="panel-title">Franklin Stats</span>
+                </div>
+                <div class="panel-content">
+                    <div class="franklin-info">
+                        <div class="info-item">
+                            <div class="info-label">Species</div>
+                            <div class="info-value">Red-Footed</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Age</div>
+                            <div class="info-value" id="franklin-age">TBD</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Weight</div>
+                            <div class="info-value" id="franklin-weight">TBD</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Shell Length</div>
+                            <div class="info-value" id="franklin-shell">TBD</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Days Under AI</div>
+                            <div class="info-value" id="days-under-ai">0</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Health Score</div>
+                            <div class="info-value" style="color: #00ff88;">98%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="right-

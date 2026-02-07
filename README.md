@@ -1,2 +1,2 @@
 # franklin-by-claude
-Franklin is a Sulcata being raised using Claude
+Franklin is a Red-footed Tortoise being raised using Claude

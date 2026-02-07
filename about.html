@@ -4,584 +4,295 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About | Franklin by Claude</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --bg-primary: #0a0f0d;
-            --bg-secondary: #121a16;
-            --bg-card: #1a241e;
-            --accent-green: #4ade80;
-            --accent-amber: #fbbf24;
-            --accent-red: #f87171;
-            --text-primary: #e8f5e9;
-            --text-secondary: #81c784;
-            --text-muted: #4a6b52;
-            --border-color: #2d4a35;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: 'Space Mono', monospace;
-            background: var(--bg-primary);
-            color: var(--text-primary);
+            font-family: 'Roboto Mono', monospace;
+            background: linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 50%, #0a0a0f 100%);
+            color: #ffffff;
             min-height: 100vh;
-            overflow-x: hidden;
         }
-
         body::before {
             content: '';
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-            opacity: 0.03;
-            pointer-events: none;
-            z-index: 1000;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image:
+                linear-gradient(rgba(0, 212, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 212, 255, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            pointer-events: none; z-index: 0;
         }
-
-        /* Header */
-        header {
-            padding: 2rem 4rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid var(--border-color);
+        .page-wrapper {
+            max-width: 1200px; margin: 0 auto; padding: 15px;
+            position: relative; z-index: 1;
         }
-
-        .logo {
-            display: flex;
-            align-items: baseline;
-            gap: 1rem;
-            text-decoration: none;
+        .header {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 10px 20px;
+            background: linear-gradient(90deg, rgba(255, 107, 53, 0.1), rgba(255, 193, 7, 0.1), rgba(255, 107, 53, 0.1));
+            border: 1px solid rgba(255, 107, 53, 0.3); border-radius: 10px; margin-bottom: 20px;
         }
-
-        .logo h1 {
-            font-family: 'Instrument Serif', serif;
-            font-size: 2.5rem;
-            font-weight: 400;
-            letter-spacing: -0.02em;
-            color: var(--text-primary);
+        .logo { display: flex; align-items: center; gap: 15px; text-decoration: none; }
+        .logo-icon {
+            width: 50px; height: 50px;
+            background: linear-gradient(135deg, #ff6b35, #ffc107);
+            border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 28px;
         }
-
-        .logo span {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.2em;
+        .logo-text h1 {
+            font-family: 'Orbitron', sans-serif; font-size: 1.8rem; font-weight: 900;
+            background: linear-gradient(90deg, #ff6b35, #ffc107, #ff6b35);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            text-transform: uppercase; letter-spacing: 3px;
         }
-
-        nav {
-            display: flex;
-            gap: 2rem;
+        .logo-text span { font-size: 0.7rem; color: #888; text-transform: uppercase; letter-spacing: 2px; }
+        .header-links { display: flex; gap: 10px; }
+        .header-links a {
+            padding: 8px 16px; background: rgba(255, 107, 53, 0.15);
+            border: 1px solid rgba(255, 107, 53, 0.3); border-radius: 5px;
+            color: #ff6b35; text-decoration: none; font-size: 0.7rem; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 1px; transition: all 0.3s;
         }
+        .header-links a:hover, .header-links a.active { background: rgba(255, 107, 53, 0.35); }
 
-        nav a {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            text-decoration: none;
-            text-transform: uppercase;
-            letter-spacing: 0.15em;
-            padding: 0.5rem 0;
-            border-bottom: 1px solid transparent;
-            transition: all 0.2s ease;
+        .page-title-section { text-align: center; padding: 40px 20px; }
+        .page-subtitle { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 3px; color: #00d4ff; margin-bottom: 10px; }
+        .page-title {
+            font-family: 'Orbitron', sans-serif; font-size: 2rem; font-weight: 900;
+            background: linear-gradient(90deg, #ff6b35, #ffc107, #ff6b35);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            text-transform: uppercase; letter-spacing: 3px; margin-bottom: 10px;
         }
+        .page-title-desc { font-size: 0.8rem; color: #888; max-width: 600px; margin: 0 auto; }
 
-        nav a:hover {
-            color: var(--text-primary);
+        .franklin-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-bottom: 30px; }
+        .franklin-stat-card {
+            background: rgba(20, 20, 35, 0.9); border: 1px solid rgba(255, 107, 53, 0.2);
+            border-radius: 10px; padding: 20px; text-align: center;
         }
+        .franklin-stat-icon { font-size: 2rem; margin-bottom: 8px; }
+        .franklin-stat-label { font-size: 0.6rem; text-transform: uppercase; letter-spacing: 2px; color: #888; margin-bottom: 6px; }
+        .franklin-stat-value { font-family: 'Orbitron', sans-serif; font-size: 1.1rem; font-weight: 700; color: #00d4ff; }
 
-        nav a.active {
-            color: var(--accent-green);
-            border-bottom-color: var(--accent-green);
+        .panel {
+            background: rgba(20, 20, 35, 0.9); border: 1px solid rgba(255, 107, 53, 0.2);
+            border-radius: 10px; overflow: hidden; margin-bottom: 20px;
         }
-
-        /* Main content */
-        main {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 4rem 2rem;
+        .panel-header {
+            padding: 12px 20px;
+            background: linear-gradient(90deg, rgba(255, 107, 53, 0.2), transparent);
+            border-bottom: 1px solid rgba(255, 107, 53, 0.2);
+            display: flex; align-items: center; gap: 10px;
         }
-
-        .page-header {
-            margin-bottom: 4rem;
-            text-align: center;
+        .panel-icon { font-size: 1.1rem; }
+        .panel-title {
+            font-family: 'Orbitron', sans-serif; font-size: 0.75rem; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 2px; color: #ff6b35;
         }
+        .panel-content { padding: 25px; }
+        .prose { font-size: 0.9rem; line-height: 1.9; color: #ccc; }
+        .prose p { margin-bottom: 1.2rem; }
+        .prose p:last-child { margin-bottom: 0; }
+        .prose em { color: #00d4ff; font-style: italic; }
+        .prose strong { color: #ff6b35; font-weight: 700; }
 
-        .page-header h2 {
-            font-family: 'Instrument Serif', serif;
-            font-size: 3.5rem;
-            font-weight: 400;
-            margin-bottom: 1.5rem;
-            line-height: 1.1;
-        }
-
-        .page-header .subtitle {
-            font-size: 0.875rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.2em;
-        }
-
-        /* Content sections */
-        .content-section {
-            margin-bottom: 4rem;
-        }
-
-        .section-label {
-            font-size: 0.625rem;
-            text-transform: uppercase;
-            letter-spacing: 0.2em;
-            color: var(--accent-green);
-            margin-bottom: 1.5rem;
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .section-label::after {
-            content: '';
-            flex: 1;
-            height: 1px;
-            background: var(--border-color);
-        }
-
-        .prose {
-            font-family: 'Instrument Serif', serif;
-            font-size: 1.375rem;
-            line-height: 1.8;
-            color: var(--text-primary);
-        }
-
-        .prose p {
-            margin-bottom: 1.5rem;
-        }
-
-        .prose p:last-child {
-            margin-bottom: 0;
-        }
-
-        .prose em {
-            font-style: italic;
-            color: var(--text-secondary);
-        }
-
-        .prose strong {
-            color: var(--accent-green);
-            font-weight: 400;
-        }
-
-        /* Quote block */
         .quote-block {
-            border-left: 2px solid var(--accent-green);
-            padding-left: 2rem;
-            margin: 3rem 0;
+            border-left: 3px solid #ff6b35; padding: 20px 25px; margin: 25px 0;
+            background: rgba(255, 107, 53, 0.05); border-radius: 0 10px 10px 0;
         }
+        .quote-block p { font-size: 1rem; font-style: italic; color: #ffc107; line-height: 1.7; }
 
-        .quote-block p {
-            font-family: 'Instrument Serif', serif;
-            font-size: 1.5rem;
-            font-style: italic;
-            color: var(--text-secondary);
-            line-height: 1.7;
-        }
-
-        /* Info cards */
-        .info-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1.5rem;
-            margin-top: 3rem;
-        }
-
+        .info-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-top: 20px; }
         .info-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 4px;
-            padding: 1.5rem;
-            text-align: center;
+            background: rgba(10, 10, 20, 0.6); border: 1px solid rgba(0, 212, 255, 0.15);
+            border-radius: 8px; padding: 20px; text-align: center;
         }
-
-        .info-card-icon {
-            font-size: 2rem;
-            margin-bottom: 1rem;
-            opacity: 0.8;
-        }
-
+        .info-card-icon { font-size: 2rem; margin-bottom: 10px; }
         .info-card h4 {
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            color: var(--text-secondary);
-            margin-bottom: 0.5rem;
+            font-family: 'Orbitron', sans-serif; font-size: 0.65rem; text-transform: uppercase;
+            letter-spacing: 2px; color: #00d4ff; margin-bottom: 8px;
         }
+        .info-card p { font-size: 0.8rem; color: #888; line-height: 1.5; }
 
-        .info-card p {
-            font-size: 0.875rem;
-            color: var(--text-muted);
-            line-height: 1.6;
-        }
-
-        /* Timeline */
-        .timeline {
-            margin-top: 2rem;
-        }
-
+        .timeline { margin-top: 20px; }
         .timeline-item {
-            display: flex;
-            gap: 2rem;
-            padding-bottom: 2rem;
-            border-left: 1px solid var(--border-color);
-            margin-left: 0.5rem;
-            padding-left: 2rem;
-            position: relative;
+            display: flex; gap: 2rem; padding-bottom: 2rem;
+            border-left: 1px solid rgba(255, 107, 53, 0.3);
+            margin-left: 0.5rem; padding-left: 2rem; position: relative;
         }
-
         .timeline-item::before {
-            content: '';
-            position: absolute;
-            left: -5px;
-            top: 0;
-            width: 9px;
-            height: 9px;
-            background: var(--bg-primary);
-            border: 2px solid var(--accent-green);
-            border-radius: 50%;
+            content: ''; position: absolute; left: -5px; top: 0;
+            width: 9px; height: 9px; background: #0a0a0f;
+            border: 2px solid #ff6b35; border-radius: 50%;
         }
-
-        .timeline-item:last-child {
-            border-left-color: transparent;
-            padding-bottom: 0;
-        }
-
+        .timeline-item:last-child { border-left-color: transparent; padding-bottom: 0; }
         .timeline-date {
-            font-size: 0.75rem;
-            color: var(--accent-green);
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            min-width: 100px;
+            font-family: 'Orbitron', sans-serif; font-size: 0.7rem; color: #ff6b35;
+            text-transform: uppercase; letter-spacing: 1px; min-width: 100px; font-weight: 700;
         }
+        .timeline-content h4 { font-size: 0.9rem; color: #fff; margin-bottom: 5px; }
+        .timeline-content p { font-size: 0.8rem; color: #888; line-height: 1.5; }
 
-        .timeline-content h4 {
-            font-size: 1rem;
-            color: var(--text-primary);
-            margin-bottom: 0.5rem;
-        }
-
-        .timeline-content p {
-            font-size: 0.875rem;
-            color: var(--text-muted);
-            line-height: 1.6;
-        }
-
-        /* Commitment section */
         .commitment-box {
-            background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-secondary) 100%);
-            border: 1px solid var(--border-color);
-            border-radius: 4px;
-            padding: 3rem;
-            margin-top: 3rem;
-            position: relative;
-            overflow: hidden;
+            background: linear-gradient(135deg, rgba(20, 20, 35, 0.9), rgba(10, 10, 20, 0.9));
+            border: 1px solid rgba(255, 107, 53, 0.3); border-radius: 10px;
+            padding: 30px; margin-bottom: 20px; position: relative; overflow: hidden;
         }
-
         .commitment-box::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, var(--accent-green), var(--accent-amber));
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+            background: linear-gradient(90deg, #ff6b35, #ffc107, #00d4ff);
         }
-
         .commitment-box h3 {
-            font-family: 'Instrument Serif', serif;
-            font-size: 1.75rem;
-            margin-bottom: 1.5rem;
-            color: var(--text-primary);
+            font-family: 'Orbitron', sans-serif; font-size: 0.9rem; text-transform: uppercase;
+            letter-spacing: 2px; color: #ffc107; margin-bottom: 20px;
         }
+        .commitment-item { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px; }
+        .commitment-item:last-child { margin-bottom: 0; }
+        .commitment-check { color: #00ff88; font-size: 1rem; line-height: 1.6; }
+        .commitment-item p { font-size: 0.85rem; color: #aaa; line-height: 1.6; }
 
-        .commitment-list {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
+        .footer {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 15px 20px; background: rgba(20, 20, 35, 0.5);
+            border: 1px solid rgba(255, 107, 53, 0.1); border-radius: 10px; margin-top: 20px;
         }
-
-        .commitment-item {
-            display: flex;
-            align-items: flex-start;
-            gap: 1rem;
-        }
-
-        .commitment-check {
-            color: var(--accent-green);
-            font-size: 1rem;
-            line-height: 1.6;
-        }
-
-        .commitment-item p {
-            font-size: 0.9375rem;
-            color: var(--text-secondary);
-            line-height: 1.6;
-        }
-
-        /* Footer */
-        footer {
-            padding: 2rem 4rem;
-            border-top: 1px solid var(--border-color);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 2rem;
-        }
-
-        .footer-text {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-        }
-
-        .footer-links {
-            display: flex;
-            gap: 2rem;
-        }
-
+        .footer-text { font-size: 0.7rem; color: #555; }
+        .footer-links { display: flex; gap: 15px; }
         .footer-links a {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            text-decoration: none;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            transition: color 0.2s ease;
+            font-size: 0.7rem; color: #555; text-decoration: none;
+            text-transform: uppercase; letter-spacing: 1px; transition: color 0.2s;
         }
+        .footer-links a:hover { color: #ff6b35; }
 
-        .footer-links a:hover {
-            color: var(--accent-green);
-        }
-
-        /* Responsive */
         @media (max-width: 768px) {
-            header {
-                padding: 1.5rem;
-                flex-direction: column;
-                gap: 1.5rem;
-            }
-
-            nav {
-                gap: 1.5rem;
-            }
-
-            main {
-                padding: 2rem 1.5rem;
-            }
-
-            .page-header h2 {
-                font-size: 2.5rem;
-            }
-
-            .prose {
-                font-size: 1.125rem;
-            }
-
-            .info-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .timeline-item {
-                flex-direction: column;
-                gap: 0.5rem;
-            }
-
-            .commitment-box {
-                padding: 2rem 1.5rem;
-            }
-
-            footer {
-                padding: 1.5rem;
-                flex-direction: column;
-                gap: 1rem;
-            }
+            .header { flex-direction: column; gap: 15px; }
+            .header-links { flex-wrap: wrap; justify-content: center; }
+            .page-title { font-size: 1.4rem; }
+            .franklin-stats { grid-template-columns: repeat(2, 1fr); }
+            .info-grid { grid-template-columns: 1fr; }
+            .timeline-item { flex-direction: column; gap: 0.5rem; }
+            .footer { flex-direction: column; gap: 10px; }
         }
     </style>
 </head>
 <body>
-    <header>
-        <a href="index.html" class="logo">
-            <h1>Franklin</h1>
-            <span>by Claude</span>
-        </a>
-        <nav>
-            <a href="index.html">Live Feed</a>
-            <a href="about.html" class="active">About</a>
-            <a href="data.html">Data Logs</a>
-        </nav>
-    </header>
-
-    <main>
-        <div class="page-header">
-            <p class="subtitle">The Experiment</p>
-            <h2>A Dream Decades in the Making,<br>Now Possible Through AI</h2>
+    <div class="page-wrapper">
+        <div class="header">
+            <a href="index.html" class="logo">
+                <div class="logo-icon">🐢</div>
+                <div class="logo-text">
+                    <h1>Franklin</h1>
+                    <span>AI-Managed Habitat</span>
+                </div>
+            </a>
+            <div class="header-links">
+                <a href="index.html">Live Feed</a>
+                <a href="about.html" class="active">About</a>
+                <a href="observations.html">AI Observations</a>
+                <a href="data.html">Data Logs</a>
+            </div>
         </div>
 
-        <section class="content-section">
-            <div class="section-label">The Origin</div>
-            <div class="prose">
-                <p>
-                    For as long as I can remember, I've been captivated by the Sulcata tortoise—those gentle giants of the reptile world, with their prehistoric grace and quiet resilience. There's something profoundly humbling about an animal that can live for over a century, that carries its home on its back, that moves through life with such deliberate patience.
-                </p>
-                <p>
-                    But life, as it does, had other plans. A full-time career, the relentless rhythm of modern work, the honest acknowledgment that <em>wanting</em> to care for an animal and being <em>able</em> to care for one properly are two very different things. The dream sat on a shelf, waiting.
-                </p>
-            </div>
-        </section>
+        <div class="page-title-section">
+            <div class="page-subtitle">The Experiment</div>
+            <h2 class="page-title">A Dream Now Possible Through AI</h2>
+            <p class="page-title-desc">A Red-Footed tortoise, raised with the help of artificial intelligence. Every decision documented. Every variable tracked.</p>
+        </div>
 
-        <section class="content-section">
-            <div class="section-label">The Catalyst</div>
-            <div class="prose">
-                <p>
-                    Then came Claude.
-                </p>
-                <p>
-                    Not as a replacement for human care—nothing could be—but as a partner. An ever-watchful presence that doesn't sleep, doesn't forget, doesn't get caught in traffic on the way home from work. What if artificial intelligence could bridge the gap between <strong>intention and capability</strong>? What if the dream didn't have to wait any longer?
-                </p>
-                <p>
-                    Franklin by Claude is the answer to that question. It's an experiment in collaboration between human devotion and machine precision. A proof of concept that AI can do more than write emails and generate images—it can help us care for living things.
-                </p>
+        <div class="franklin-stats">
+            <div class="franklin-stat-card">
+                <div class="franklin-stat-icon">🐢</div>
+                <div class="franklin-stat-label">Species</div>
+                <div class="franklin-stat-value">Red-Footed</div>
             </div>
-
-            <div class="quote-block">
-                <p>"This isn't about replacing the human heart in animal care. It's about extending its reach."</p>
+            <div class="franklin-stat-card">
+                <div class="franklin-stat-icon">🎂</div>
+                <div class="franklin-stat-label">Age</div>
+                <div class="franklin-stat-value">~1 Year</div>
             </div>
-        </section>
-
-        <section class="content-section">
-            <div class="section-label">How It Works</div>
-            <div class="prose">
-                <p>
-                    Claude monitors Franklin's habitat around the clock through an array of sensors and cameras. Temperature, humidity, soil moisture—every variable that matters to a Sulcata's health is tracked, analyzed, and acted upon in real time.
-                </p>
-                <p>
-                    When the basking spot dips below optimal temperature, Claude activates the heat lamp. When humidity drops, the misting system engages. When it's time for a soak or a feeding, the schedule is maintained with unwavering consistency. And if Franklin ever finds himself on his back—a genuine danger for tortoises—the system alerts immediately.
-                </p>
+            <div class="franklin-stat-card">
+                <div class="franklin-stat-icon">⚖️</div>
+                <div class="franklin-stat-label">Weight</div>
+                <div class="franklin-stat-value">13.6 oz</div>
             </div>
+            <div class="franklin-stat-card">
+                <div class="franklin-stat-icon">📏</div>
+                <div class="franklin-stat-label">Shell Length</div>
+                <div class="franklin-stat-value">5.25"</div>
+            </div>
+        </div>
 
+        <div class="panel">
+            <div class="panel-header"><span class="panel-icon">📖</span><span class="panel-title">The Origin</span></div>
+            <div class="panel-content"><div class="prose">
+                <p>For as long as I can remember, I've been captivated by tortoises—those gentle creatures of the reptile world, with their prehistoric grace and quiet resilience. There's something profoundly humbling about an animal that carries its home on its back, that moves through life with such deliberate patience. The Red-Footed tortoise, with its striking shell patterns and curious personality, captured my heart completely.</p>
+                <p>But life, as it does, had other plans. A full-time career, the relentless rhythm of modern work, the honest acknowledgment that <em>wanting</em> to care for an animal and being <em>able</em> to care for one properly are two very different things. The dream sat on a shelf, waiting.</p>
+            </div></div>
+        </div>
+
+        <div class="panel">
+            <div class="panel-header"><span class="panel-icon">⚡</span><span class="panel-title">The Catalyst</span></div>
+            <div class="panel-content"><div class="prose">
+                <p>Then came Claude.</p>
+                <p>Not as a replacement for human care—nothing could be—but as a partner. An ever-watchful presence that doesn't sleep, doesn't forget, doesn't get caught in traffic on the way home from work. What if artificial intelligence could bridge the gap between <strong>intention and capability</strong>? What if the dream didn't have to wait any longer?</p>
+                <p>Franklin by Claude is the answer to that question. It's an experiment in collaboration between human devotion and machine precision. A proof of concept that AI can do more than write emails and generate images—it can help us care for living things.</p>
+            </div>
+            <div class="quote-block"><p>"This isn't about replacing the human heart in animal care. It's about extending its reach."</p></div>
+            </div>
+        </div>
+
+        <div class="panel">
+            <div class="panel-header"><span class="panel-icon">🤖</span><span class="panel-title">How It Works</span></div>
+            <div class="panel-content"><div class="prose">
+                <p>Claude monitors Franklin's habitat around the clock through an array of sensors and cameras. Temperature, humidity, soil moisture—every variable that matters to a Red-Footed tortoise's health is tracked, analyzed, and acted upon in real time.</p>
+                <p>When the basking spot dips below optimal temperature, Claude activates the heat lamp. When humidity drops, the misting system engages. When it's time for a soak or a feeding, the schedule is maintained with unwavering consistency. And if Franklin ever finds himself on his back—a genuine danger for tortoises—the system alerts immediately.</p>
+            </div>
             <div class="info-grid">
-                <div class="info-card">
-                    <div class="info-card-icon">🌡️</div>
-                    <h4>Climate Control</h4>
-                    <p>Automated temperature and humidity management tuned to Sulcata requirements</p>
-                </div>
-                <div class="info-card">
-                    <div class="info-card-icon">👁️</div>
-                    <h4>Visual Monitoring</h4>
-                    <p>Computer vision tracks behavior, position, and detects potential emergencies</p>
-                </div>
-                <div class="info-card">
-                    <div class="info-card-icon">📊</div>
-                    <h4>Data Logging</h4>
-                    <p>Every decision, reading, and observation recorded for scientific analysis</p>
-                </div>
-            </div>
-        </section>
-
-        <section class="content-section">
-            <div class="section-label">The Long View</div>
-            <div class="prose">
-                <p>
-                    Let me be unequivocal: <strong>this is not a short-term project</strong>.
-                </p>
-                <p>
-                    Sulcata tortoises can live 70 to 100 years. Franklin, if all goes well, will outlive me. This experiment is measured not in weeks or months, but in decades. The data we collect, the insights we gain, the proof we establish—all of it compounds over time.
-                </p>
-                <p>
-                    This is a commitment to a lifetime of care, documented publicly, with every success and setback shared transparently. We'll track Franklin's growth from hatchling to the hundred-pound gentle giant he's destined to become. We'll learn what works, what doesn't, and what AI-assisted animal husbandry can truly achieve.
-                </p>
-            </div>
-
-            <div class="timeline">
-                <div class="timeline-item">
-                    <span class="timeline-date">Year 1</span>
-                    <div class="timeline-content">
-                        <h4>Foundation</h4>
-                        <p>Establish baseline care protocols, refine AI decision-making, document early growth patterns</p>
-                    </div>
-                </div>
-                <div class="timeline-item">
-                    <span class="timeline-date">Years 2-5</span>
-                    <div class="timeline-content">
-                        <h4>Adolescence</h4>
-                        <p>Scale habitat as Franklin grows, adapt care routines, build comprehensive health database</p>
-                    </div>
-                </div>
-                <div class="timeline-item">
-                    <span class="timeline-date">Years 5-20</span>
-                    <div class="timeline-content">
-                        <h4>Maturity</h4>
-                        <p>Transition to outdoor enclosure, long-term health monitoring, publish findings</p>
-                    </div>
-                </div>
-                <div class="timeline-item">
-                    <span class="timeline-date">Beyond</span>
-                    <div class="timeline-content">
-                        <h4>Legacy</h4>
-                        <p>A living testament to what's possible when human care is augmented by artificial intelligence</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="content-section">
-            <div class="commitment-box">
-                <h3>Our Commitment to Franklin</h3>
-                <div class="commitment-list">
-                    <div class="commitment-item">
-                        <span class="commitment-check">✓</span>
-                        <p>Franklin's welfare is the absolute priority. If at any point AI-assisted care proves insufficient, human intervention scales immediately.</p>
-                    </div>
-                    <div class="commitment-item">
-                        <span class="commitment-check">✓</span>
-                        <p>All data, including setbacks and failures, will be shared publicly. Science requires honesty.</p>
-                    </div>
-                    <div class="commitment-item">
-                        <span class="commitment-check">✓</span>
-                        <p>Regular veterinary checkups supplement AI monitoring. Technology assists; it doesn't replace professional care.</p>
-                    </div>
-                    <div class="commitment-item">
-                        <span class="commitment-check">✓</span>
-                        <p>This is a lifetime commitment. Franklin has a permanent home, regardless of the project's public interest.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="content-section">
-            <div class="section-label">Join the Journey</div>
-            <div class="prose">
-                <p>
-                    Whether you're here for the technology, the tortoise, or simply the curiosity of watching something unprecedented unfold—welcome. Follow along on X for daily updates, watch the live stream, dig into the data logs, and witness what happens when a decades-old dream finally gets its chance.
-                </p>
-                <p>
-                    Franklin's story is just beginning. I'm grateful you're here for it.
-                </p>
-            </div>
-        </section>
-    </main>
-
-    <footer>
-        <span class="footer-text">A scientific experiment in AI-assisted animal husbandry</span>
-        <div class="footer-links">
-            <a href="https://x.com" target="_blank">Follow on X</a>
-            <a href="https://pump.fun" target="_blank">Watch on Pump.fun</a>
-            <a href="data.html">View Data Logs</a>
+                <div class="info-card"><div class="info-card-icon">🌡️</div><h4>Climate Control</h4><p>Automated temperature and humidity management tuned to Red-Footed tortoise requirements</p></div>
+                <div class="info-card"><div class="info-card-icon">👁️</div><h4>Visual Monitoring</h4><p>Computer vision tracks behavior, position, and detects potential emergencies</p></div>
+                <div class="info-card"><div class="info-card-icon">📊</div><h4>Data Logging</h4><p>Every decision, reading, and observation recorded for scientific analysis</p></div>
+            </div></div>
         </div>
-    </footer>
+
+        <div class="panel">
+            <div class="panel-header"><span class="panel-icon">🔭</span><span class="panel-title">The Long View</span></div>
+            <div class="panel-content"><div class="prose">
+                <p>Let me be unequivocal: <strong>this is not a short-term project</strong>.</p>
+                <p>Red-Footed tortoises can live 50 years or more. Franklin, if all goes well, will be with us for decades. This experiment is measured not in weeks or months, but in a lifetime. The data we collect, the insights we gain, the proof we establish—all of it compounds over time.</p>
+                <p>This is a commitment to a lifetime of care, documented publicly, with every success and setback shared transparently. We'll track Franklin's growth as he matures into the beautiful, full-sized Red-Foot he's destined to become.</p>
+            </div>
+            <div class="timeline">
+                <div class="timeline-item"><span class="timeline-date">Year 1</span><div class="timeline-content"><h4>Foundation</h4><p>Establish baseline care protocols, refine AI decision-making, document early growth patterns</p></div></div>
+                <div class="timeline-item"><span class="timeline-date">Years 2-5</span><div class="timeline-content"><h4>Adolescence</h4><p>Scale habitat as Franklin grows, adapt care routines, build comprehensive health database</p></div></div>
+                <div class="timeline-item"><span class="timeline-date">Years 5-20</span><div class="timeline-content"><h4>Maturity</h4><p>Transition to outdoor enclosure, long-term health monitoring, publish findings</p></div></div>
+                <div class="timeline-item"><span class="timeline-date">Beyond</span><div class="timeline-content"><h4>Legacy</h4><p>A living testament to what's possible when human care is augmented by artificial intelligence</p></div></div>
+            </div></div>
+        </div>
+
+        <div class="commitment-box">
+            <h3>Our Commitment to Franklin</h3>
+            <div class="commitment-item"><span class="commitment-check">✓</span><p>Franklin's welfare is the absolute priority. If at any point AI-assisted care proves insufficient, human intervention scales immediately.</p></div>
+            <div class="commitment-item"><span class="commitment-check">✓</span><p>All data, including setbacks and failures, will be shared publicly. Science requires honesty.</p></div>
+            <div class="commitment-item"><span class="commitment-check">✓</span><p>Regular veterinary checkups supplement AI monitoring. Technology assists; it doesn't replace professional care.</p></div>
+            <div class="commitment-item"><span class="commitment-check">✓</span><p>This is a lifetime commitment. Franklin has a permanent home, regardless of the project's public interest.</p></div>
+        </div>
+
+        <div class="panel">
+            <div class="panel-header"><span class="panel-icon">🌍</span><span class="panel-title">Join the Journey</span></div>
+            <div class="panel-content"><div class="prose">
+                <p>Whether you're here for the technology, the tortoise, or simply the curiosity of watching something unprecedented unfold—welcome. Follow along on X for daily updates, watch the live stream, dig into the data logs, and witness what happens when a decades-old dream finally gets its chance.</p>
+                <p>Franklin's story is just beginning. I'm grateful you're here for it.</p>
+            </div></div>
+        </div>
+
+        <div class="footer">
+            <span class="footer-text">A scientific experiment in AI-assisted animal husbandry</span>
+            <div class="footer-links">
+                <a href="https://x.com" target="_blank">Follow on X</a>
+                <a href="https://pump.fun" target="_blank">Pump.fun</a>
+                <a href="data.html">Data Logs</a>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

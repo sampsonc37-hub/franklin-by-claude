@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Observations | Franklin by Claude</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Roboto Mono', monospace;
+            background: linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 50%, #0a0a0f 100%);
+            color: #ffffff; min-height: 100vh;
+        }
+        body::before {
+            content: ''; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-image:
+                linear-gradient(rgba(0, 212, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 212, 255, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px; pointer-events: none; z-index: 0;
+        }
+        .page-wrapper { max-width: 1200px; margin: 0 auto; padding: 15px; position: relative; z-index: 1; }
+
+        .header {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 10px 20px;
+            background: linear-gradient(90deg, rgba(255, 107, 53, 0.1), rgba(255, 193, 7, 0.1), rgba(255, 107, 53, 0.1));
+            border: 1px solid rgba(255, 107, 53, 0.3); border-radius: 10px; margin-bottom: 20px;
+        }
+        .logo { display: flex; align-items: center; gap: 15px; text-decoration: none; }
+        .logo-icon {
+            width: 50px; height: 50px; background: linear-gradient(135deg, #ff6b35, #ffc107);
+            border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 28px;
+        }
+        .logo-text h1 {
+            font-family: 'Orbitron', sans-serif; font-size: 1.8rem; font-weight: 900;
+            background: linear-gradient(90deg, #ff6b35, #ffc107, #ff6b35);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            text-transform: uppercase; letter-spacing: 3px;
+        }
+        .logo-text span { font-size: 0.7rem; color: #888; text-transform: uppercase; letter-spacing: 2px; }
+        .header-links { display: flex; gap: 10px; }
+        .header-links a {
+            padding: 8px 16px; background: rgba(255, 107, 53, 0.15);
+            border: 1px solid rgba(255, 107, 53, 0.3); border-radius: 5px;
+            color: #ff6b35; text-decoration: none; font-size: 0.7rem; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 1px; transition: all 0.3s;
+        }
+        .header-links a:hover, .header-links a.active { background: rgba(255, 107, 53, 0.35); }
+
+        .page-title-bar {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 25px; flex-wrap: wrap; gap: 15px;
+        }
+        .page-title-bar h2 {
+            font-family: 'Orbitron', sans-serif; font-size: 1.3rem; font-weight: 900;
+            text-transform: uppercase; letter-spacing: 3px; color: #ff6b35;
+        }
+        .page-title-bar p { font-size: 0.75rem; color: #888; }
+
+        .live-indicator {
+            display: flex; align-items: center; gap: 10px;
+            padding: 10px 20px;
+            background: rgba(20, 20, 35, 0.9); border: 1px solid rgba(0, 212, 255, 0.3);
+            border-radius: 8px;
+        }
+        .live-dot {
+            width: 10px; height: 10px; background: #00ff88; border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(0, 255, 136, 0.4); }
+            50% { opacity: 0.7; box-shadow: 0 0 0 8px rgba(0, 255, 136, 0); }
+        }
+        .live-label {
+            font-family: 'Orbitron', sans-serif; font-size: 0.65rem; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 1px; color: #00ff88;
+        }
+        .live-sub { font-size: 0.65rem; color: #888; }
+
+        /* Latest observation hero */
+        .latest-panel {
+            background: rgba(20, 20, 35, 0.9);
+            border: 1px solid rgba(0, 212, 255, 0.4);
+            border-radius: 10px; overflow: hidden; margin-bottom: 25px;
+            position: relative;
+        }
+        .latest-panel::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+            background: linear-gradient(90deg, #ff6b35, #ffc107, #00d4ff);
+        }
+        .latest-header {
+            padding: 12px 20px;
+            background: linear-gradient(90deg, rgba(0, 212, 255, 0.15), transparent);
+            border-bottom: 1px solid rgba(0, 212, 255, 0.2);
+            display: flex; align-items: center; gap: 10px;
+        }
+        .latest-header-icon { font-size: 1.1rem; }
+        .latest-header-title {
+            font-family: 'Orbitron', sans-serif; font-size: 0.75rem; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 2px; color: #00d4ff;
+        }
+        .latest-content { padding: 25px; }
+        .latest-time { font-size: 0.75rem; color: #ff6b35; margin-bottom: 15px; font-weight: 700; }
+        .latest-text { font-size: 0.95rem; line-height: 1.9; color: #ddd; }
+
+        .latest-meta {
+            margin-top: 20px; display: flex; gap: 25px; padding-top: 20px;
+            border-top: 1px solid rgba(255, 107, 53, 0.15); flex-wrap: wrap;
+        }
+        .latest-meta-item {}
+        .latest-meta-label {
+            font-size: 0.6rem; text-transform: uppercase; letter-spacing: 2px; color: #888;
+        }
+        .latest-meta-value {
+            font-family: 'Orbitron', sans-serif; font-size: 0.85rem; font-weight: 700;
+            color: #00d4ff; margin-top: 4px;
+        }
+
+        /* Previous observations */
+        .section-header {
+            font-family: 'Orbitron', sans-serif; font-size: 0.7rem; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 2px; color: #ff6b35;
+            margin-bottom: 15px; padding-bottom: 10px;
+            border-bottom: 1px solid rgba(255, 107, 53, 0.2);
+            display: flex; align-items: center; gap: 10px;
+        }
+        .section-header::after {
+            content: ''; flex: 1; height: 1px; background: rgba(255, 107, 53, 0.2);
+        }
+
+        .observation-card {
+            background: rgba(20, 20, 35, 0.9); border: 1px solid rgba(255, 107, 53, 0.15);
+            border-radius: 10px; padding: 20px; margin-bottom: 12px;
+            transition: border-color 0.2s;
+        }
+        .observation-card:hover { border-color: rgba(255, 107, 53, 0.4); }
+
+        .observation-top {
+            display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;
+        }
+        .observation-time { font-size: 0.75rem; color: #ff6b35; font-weight: 700; }
+        .observation-type {
+            font-family: 'Orbitron', sans-serif; font-size: 0.55rem; text-transform: uppercase;
+            letter-spacing: 1px; padding: 4px 10px; border-radius: 4px;
+            background: rgba(10, 10, 20, 0.6);
+        }
+        .observation-type.behavior { color: #00d4ff; border: 1px solid rgba(0, 212, 255, 0.3); }
+        .observation-type.environment { color: #ffc107; border: 1px solid rgba(255, 193, 7, 0.3); }
+        .observation-type.health { color: #00ff88; border: 1px solid rgba(0, 255, 136, 0.3); }
+        .observation-type.alert { color: #ff4060; border: 1px solid rgba(255, 64, 96, 0.3); }
+
+        .observation-text { font-size: 0.85rem; color: #aaa; line-height: 1.7; }
+
+        /* Empty state */
+        .empty-state {
+            text-align: center; padding: 60px 20px;
+            background: rgba(20, 20, 35, 0.9); border: 1px dashed rgba(255, 107, 53, 0.3);
+            border-radius: 10px;
+        }
+        .empty-state-icon { font-size: 3rem; margin-bottom: 15px; opacity: 0.5; }
+        .empty-state h3 {
+            font-family: 'Orbitron', sans-serif; font-size: 1rem; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 2px; color: #ff6b35; margin-bottom: 10px;
+        }
+        .empty-state p { font-size: 0.8rem; color: #888; max-width: 450px; margin: 0 auto; }
+
+        /* Info box */
+        .info-box {
+            background: rgba(20, 20, 35, 0.9); border: 1px solid rgba(255, 107, 53, 0.2);
+            border-radius: 10px; padding: 25px; margin-top: 30px;
+        }
+        .info-box h3 {
+            font-family: 'Orbitron', sans-serif; font-size: 0.7rem; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 2px; color: #ffc107; margin-bottom: 12px;
+        }
+        .info-box p { font-size: 0.8rem; color: #888; line-height: 1.7; margin-bottom: 8px; }
+        .info-box p:last-child { margin-bottom: 0; }
+
+        .footer {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 15px 20px; background: rgba(20, 20, 35, 0.5);
+            border: 1px solid rgba(255, 107, 53, 0.1); border-radius: 10px; margin-top: 20px;
+        }
+        .footer-text { font-size: 0.7rem; color: #555; }
+        .footer-links { display: flex; gap: 15px; }
+        .footer-links a {
+            font-size: 0.7rem; color: #555; text-decoration: none;
+            text-transform: uppercase; letter-spacing: 1px; transition: color 0.2s;
+        }
+        .footer-links a:hover { color: #ff6b35; }
+
+        @media (max-width: 768px) {
+            .header { flex-direction: column; gap: 15px; }
+            .header-links { flex-wrap: wrap; justify-content: center; }
+            .page-title-bar { flex-direction: column; align-items: flex-start; }
+            .page-title-bar h2 { font-size: 1rem; }
+            .latest-meta { gap: 15px; }
+            .footer { flex-direction: column; gap: 10px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-wrapper">
+        <div class="header">
+            <a href="index.html" class="logo">
+                <div class="logo-icon">🐢</div>
+                <div class="logo-text">
+                    <h1>Franklin</h1>
+                    <span>AI-Managed Habitat</span>
+                </div>
+            </a>
+            <div class="header-links">
+                <a href="index.html">Live Feed</a>
+                <a href="about.html">About</a>
+                <a href="observations.html" class="active">AI Observations</a>
+                <a href="data.html">Data Logs</a>
+            </div>
+        </div>
+
+        <div class="page-title-bar">
+            <div>
+                <h2>🤖 AI Observations</h2>
+                <p>Real-time notes from Claude as it monitors Franklin's habitat</p>
+            </div>
+            <div class="live-indicator">
+                <div class="live-dot"></div>
+                <div>
+                    <div class="live-label" id="last-updated">Waiting for data...</div>
+                    <div class="live-sub">Auto-refreshes every 5 min</div>
+                </div>
+            </div>
+        </div>
+
+        <div id="latest-container"></div>
+
+        <div class="section-header">Previous Observations</div>
+        <div id="observations-list"></div>
+
+        <div class="info-box">
+            <h3>How This Works</h3>
+            <p>Claude periodically analyzes Franklin's habitat through sensor data and camera feeds. Each observation includes notes on Franklin's behavior, environmental conditions, and any actions taken or recommended.</p>
+            <p>Observations are stored as a JSON file and this page refreshes automatically every 5 minutes. As the system matures, observation frequency and detail will increase.</p>
+        </div>
+
+        <div class="footer">
+            <span class="footer-text">A scientific experiment in AI-assisted animal husbandry</span>
+            <div class="footer-links">
+                <a href="https://x.com" target="_blank">Follow on X</a>
+                <a href="https://pump.fun" target="_blank">Pump.fun</a>
+                <a href="data.html">Data Logs</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // CONFIGURATION: Update this URL to your GitHub Gist with observations JSON
+        // JSON format:
+        // {
+        //   "observations": [
+        //     {
+        //       "timestamp": "2026-02-07T14:30:00Z",
+        //       "type": "behavior",       // behavior, environment, health, alert
+        //       "text": "Franklin is basking under the heat lamp...",
+        //       "location": "Basking area",
+        //       "activity": "Resting",
+        //       "temp_f": 82.5,
+        //       "humidity": 68
+        //     }
+        //   ]
+        // }
+        const OBSERVATIONS_URL = 'https://gist.githubusercontent.com/sampsonc37-hub/YOUR_GIST_ID/raw/observations.json';
+
+        function timeAgo(dateStr) {
+            const now = new Date();
+            const date = new Date(dateStr);
+            const seconds = Math.floor((now - date) / 1000);
+            if (seconds < 60) return 'Just now';
+            if (seconds < 3600) return Math.floor(seconds / 60) + 'm ago';
+            if (seconds < 86400) return Math.floor(seconds / 3600) + 'h ago';
+            return Math.floor(seconds / 86400) + 'd ago';
+        }
+
+        function formatTime(dateStr) {
+            const d = new Date(dateStr);
+            return d.toLocaleString('en-US', {
+                weekday: 'short', month: 'short', day: 'numeric',
+                hour: 'numeric', minute: '2-digit', hour12: true
+            });
+        }
+
+        function renderEmpty() {
+            document.getElementById('latest-container').innerHTML = `
+                <div class="empty-state" style="margin-bottom: 25px;">
+                    <div class="empty-state-icon">🤖</div>
+                    <h3>Awaiting First Observation</h3>
+                    <p>Once Claude begins monitoring Franklin's habitat, real-time observations will appear here. Check back soon!</p>
+                </div>`;
+            document.getElementById('observations-list').innerHTML = '';
+        }
+
+        function renderObservations(data) {
+            const obs = data.observations;
+            if (!obs || obs.length === 0) { renderEmpty(); return; }
+
+            const latest = obs[0];
+            document.getElementById('latest-container').innerHTML = `
+                <div class="latest-panel">
+                    <div class="latest-header">
+                        <span class="latest-header-icon">🤖</span>
+                        <span class="latest-header-title">Latest Observation</span>
+                    </div>
+                    <div class="latest-content">
+                        <div class="latest-time">${formatTime(latest.timestamp)} · ${timeAgo(latest.timestamp)}</div>
+                        <div class="latest-text">${latest.text}</div>
+                        <div class="latest-meta">
+                            ${latest.location ? `<div class="latest-meta-item"><div class="latest-meta-label">Location</div><div class="latest-meta-value">${latest.location}</div></div>` : ''}
+                            ${latest.activity ? `<div class="latest-meta-item"><div class="latest-meta-label">Activity</div><div class="latest-meta-value">${latest.activity}</div></div>` : ''}
+                            ${latest.temp_f ? `<div class="latest-meta-item"><div class="latest-meta-label">Temp</div><div class="latest-meta-value">${latest.temp_f}°F</div></div>` : ''}
+                            ${latest.humidity ? `<div class="latest-meta-item"><div class="latest-meta-label">Humidity</div><div class="latest-meta-value">${latest.humidity}%</div></div>` : ''}
+                        </div>
+                    </div>
+                </div>`;
+
+            const previous = obs.slice(1, 20);
+            if (previous.length > 0) {
+                document.getElementById('observations-list').innerHTML = previous.map(o => `
+                    <div class="observation-card">
+                        <div class="observation-top">
+                            <span class="observation-time">${formatTime(o.timestamp)}</span>
+                            <span class="observation-type ${o.type || 'behavior'}">${o.type || 'observation'}</span>
+                        </div>
+                        <div class="observation-text">${o.text}</div>
+                    </div>`).join('');
+            } else {
+                document.getElementById('observations-list').innerHTML = `
+                    <div class="observation-card" style="text-align: center; color: #888; padding: 30px;">
+                        No previous observations yet. More will appear as Claude continues monitoring.
+                    </div>`;
+            }
+            document.getElementById('last-updated').textContent = 'Updated ' + timeAgo(latest.timestamp);
+        }
+
+        async function fetchObservations() {
+            try {
+                const response = await fetch(OBSERVATIONS_URL + '?t=' + Date.now());
+                const data = await response.json();
+                renderObservations(data);
+            } catch (error) {
+                console.log('Observations not yet available:', error.message);
+                renderEmpty();
+            }
+        }
+
+        fetchObservations();
+        setInterval(fetchObservations, 300000);
+    </script>
+</body>
+</html>
